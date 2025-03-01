@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Remote database provider for Entity Framework Core.</Description>
+    <TargetFramework>$(DefaultNetCoreTargetFramework)</TargetFramework>
+    <MinClientVersion>3.6</MinClientVersion>
+    <AssemblyName>JohnGoldInc.EntityFrameworkCore.Serialize</AssemblyName>
+    <RootNamespace>JohnGoldInc.EntityFrameworkCore.Serialize</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageTags>$(PackageTags);Serialize</PackageTags>
+    <ImplicitUsings>true</ImplicitUsings>
+    <NoWarn>$(NoWarn);EF9101</NoWarn>
+    <!-- Metrics is experimental -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <PackageReference Include="Serialize.Linq" />
+  </ItemGroup>
+
+</Project>
