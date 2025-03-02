@@ -8,7 +8,6 @@ using JohnGoldInc.EntityFrameworkCore.Serialize.Serializers;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Update;
-using System.Reflection.Metadata.Ecma335;
 
 namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
 {
@@ -17,14 +16,14 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
     /// </summary>
     public class SerializeDatabase : IDatabase
     {
-        private readonly Func<string, CancellationToken, Task<IEnumerable<dynamic>>> dataProvider;
+        private readonly Func<string, CancellationToken, Task<string>> dataProvider;
         private readonly Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync;
         private readonly EfCoreExpressionSerializer serializer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializeDatabase"/> class.
         /// </summary>
-        public SerializeDatabase(Func<string, CancellationToken, Task<IEnumerable<dynamic>>> dataProvider, Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync)
+        public SerializeDatabase(Func<string, CancellationToken, Task<string>> dataProvider, Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync)
         {
             this.dataProvider = dataProvider;
             this.saveChangesAsync = saveChangesAsync;
@@ -64,7 +63,7 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
 
             var dataParameter = Expression.Constant(data);
 
-            var newQueryingEnumerable = Expression.New(queryingEnumerableType.GetConstructor(new[] { typeof(Task<IEnumerable<dynamic>>) })!, dataParameter);
+            var newQueryingEnumerable = Expression.New(queryingEnumerableType.GetConstructor(new[] { typeof(Task<string>) })!, dataParameter);
 
             var lambda = Expression.Lambda<Func<QueryContext, TResult>>(newQueryingEnumerable, queryContextParameter);
             return lambda;
@@ -87,7 +86,7 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
         public Task<int> SaveChangesAsync(IList<IUpdateEntry> entries, CancellationToken cancellationToken = default)
             => this.saveChangesAsync(entries, cancellationToken);
 
-        private sealed class QueryingEnumerable<T>(Task<IEnumerable<dynamic>> data)
+        private sealed class QueryingEnumerable<T>(Task<string> data)
             : IAsyncEnumerable<T>, IEnumerable<T>
              where T : class
         {
@@ -100,24 +99,13 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
                  => enumerator ?? (enumerator = new QueryingEnumerator<T>(data));
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-            private sealed class QueryingEnumerator<E>(Task<IEnumerable<dynamic>> data, CancellationToken cancellationToken = default) : IAsyncEnumerator<E>, IEnumerator<E>
+            private sealed class QueryingEnumerator<E>(Task<string> data, CancellationToken cancellationToken = default) : IAsyncEnumerator<E>, IEnumerator<E>
                 where E : class
             {
-                private IEnumerable<dynamic>? enumerable;
-                private IEnumerator<dynamic>? enumerableEnumerator;
+                private IEnumerable<E>? enumerable;
+                private IEnumerator<E>? enumerableEnumerator;
 
-                public E Current
-                {
-                    get {
-                        if (enumerableEnumerator!.Current is System.Text.Json.JsonElement jsonElement)
-                        {
-                            var result = System.Text.Json.JsonSerializer.Deserialize<E>(jsonElement)!;
-
-                            return result;
-                        }
-                        return (E)enumerableEnumerator!.Current!;
-                    }
-                }
+                public E Current=> (E)enumerableEnumerator!.Current!;
 
                 E IEnumerator<E>.Current => Current;
 
@@ -147,8 +135,8 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
                         cancellationToken.ThrowIfCancellationRequested();
                     }
 
-                    enumerable ??= await data.ConfigureAwait(false);
-                    enumerableEnumerator ??= enumerable.GetEnumerator();
+                    enumerable ??= Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<E>>(await data.ConfigureAwait(false));
+                    enumerableEnumerator ??= enumerable!.GetEnumerator();
 
                     return enumerableEnumerator!.MoveNext();
                 }

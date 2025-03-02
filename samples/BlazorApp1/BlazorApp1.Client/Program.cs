@@ -28,7 +28,7 @@ var httpClient = new HttpClient();
 
 httpClient.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
 
-Func<string, CancellationToken, Task<IEnumerable<object>>> dataProvider = async (json, cancellationToken) =>
+Func<string, CancellationToken, Task<string>> dataProvider = async (json, cancellationToken) =>
 {
     var response = await httpClient.PostAsync(new Uri("/api/data/query", UriKind.Relative), new StringContent(json, MediaTypeHeaderValue.Parse("application/json"))).ConfigureAwait(false);
 
@@ -41,7 +41,7 @@ Func<string, CancellationToken, Task<IEnumerable<object>>> dataProvider = async 
 
     response.EnsureSuccessStatusCode();
 
-    var result = await response.Content.ReadFromJsonAsync<IEnumerable<object>>(jsonSerializerOptions).ConfigureAwait(false);
+    var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
     return result ?? throw new Exception("No result.");
 };
 

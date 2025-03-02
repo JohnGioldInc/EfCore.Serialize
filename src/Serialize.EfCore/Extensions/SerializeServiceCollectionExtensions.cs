@@ -33,7 +33,7 @@ public static class SerializeServiceCollectionExtensions
     ///     The same service collection so that multiple calls can be chained.
     /// </returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static IServiceCollection AddEntityFrameworkSerializeDatabase(this IServiceCollection serviceCollection, Func<string, CancellationToken, Task<IEnumerable<dynamic>>> dataProvider, Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync)
+    public static IServiceCollection AddEntityFrameworkSerializeDatabase(this IServiceCollection serviceCollection, Func<string, CancellationToken, Task<string>> dataProvider, Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync)
     {
         serviceCollection.AddEntityFrameworkInMemoryDatabase();
         serviceCollection.RemoveAll<IDatabase>();

@@ -37,7 +37,7 @@ public static class SerializeDbContextOptionsExtensions
     public static DbContextOptionsBuilder<TContext> UseSerializeDatabase<TContext>(
         this DbContextOptionsBuilder<TContext> optionsBuilder,
         string databaseName,
-        Func<string, CancellationToken, Task<IEnumerable<dynamic>>> dataProvider,
+        Func<string, CancellationToken, Task<string>> dataProvider,
         Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync,
         Action<DbContextOptionsBuilder>? SerializeOptionsAction = null)
         where TContext : DbContext
@@ -65,7 +65,7 @@ public static class SerializeDbContextOptionsExtensions
     public static DbContextOptionsBuilder UseSerializeDatabase(
         this DbContextOptionsBuilder optionsBuilder,
         string databaseName,
-        Func<string, CancellationToken, Task<IEnumerable<dynamic>>> dataProvider,
+        Func<string, CancellationToken, Task<string>> dataProvider,
         Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync,
         Action<DbContextOptionsBuilder>? SerializeOptionsAction = null)
         => UseSerializeDatabase(optionsBuilder, databaseName, null, dataProvider, saveChangesAsync, SerializeOptionsAction);
@@ -98,7 +98,7 @@ public static class SerializeDbContextOptionsExtensions
         this DbContextOptionsBuilder<TContext> optionsBuilder,
         string databaseName,
         InMemoryDatabaseRoot? databaseRoot,
-        Func<string, CancellationToken, Task<IEnumerable<dynamic>>> dataProvider,
+        Func<string, CancellationToken, Task<string>> dataProvider,
         Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync,
         Action<DbContextOptionsBuilder>? SerializeOptionsAction = null)
         where TContext : DbContext
@@ -132,7 +132,7 @@ public static class SerializeDbContextOptionsExtensions
     this DbContextOptionsBuilder optionsBuilder,
     string databaseName,
     InMemoryDatabaseRoot? databaseRoot,
-    Func<string, CancellationToken, Task<IEnumerable<dynamic>>> dataProvider,
+    Func<string, CancellationToken, Task<string>> dataProvider,
     Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync,
     Action<DbContextOptionsBuilder>? SerializeOptionsAction = null)
     {
