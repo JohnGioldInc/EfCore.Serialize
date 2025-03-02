@@ -3,12 +3,15 @@
 
 namespace BlazorApp1.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Text.Json.Serialization;
     using BlazorApp1.Data;
     using JohnGoldInc.EntityFrameworkCore.Serialize;
     using JohnGoldInc.EntityFrameworkCore.Serialize.Serializers;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Query;
     using Microsoft.EntityFrameworkCore.Update;
     using Serialize.Linq.Serializers;
 
@@ -40,17 +43,21 @@ namespace BlazorApp1.Controllers
         [HttpPost("query")]
         public ActionResult<IEnumerable<object>> Query([FromBody] string serializedExpression)
         {
-            var expression = this.serializer.DeserializeText(serializedExpression) as LambdaExpression;
+            var expression = this.serializer.DeserializeText(serializedExpression);
             if (expression == null)
             {
                 return this.BadRequest("Invalid expression");
             }
 
-            var genericArgumentType = expression.ReturnType.GetGenericArguments().FirstOrDefault();
+            var genericArgumentType = expression.Type.GetGenericArguments().FirstOrDefault();
             if (genericArgumentType == null)
             {
                 return this.BadRequest("Invalid expression return type");
             }
+
+            var queryableType = typeof(IQueryable<>).MakeGenericType(genericArgumentType);
+            var funcType = typeof(Func<>).MakeGenericType(queryableType);
+            var lambda = Expression.Lambda(funcType, expression);
 
             var fromExpressionMethod = typeof(BlazorApp1Context)
                 .GetMethod(nameof(BlazorApp1Context.FromExpression))
@@ -61,8 +68,13 @@ namespace BlazorApp1.Controllers
                 return this.StatusCode(500, "Unable to find FromExpression method");
             }
 
-            var query = fromExpressionMethod.Invoke(this.blazorApp1Context, new object[] { expression });
-            var result = ((IQueryable<object>)query!).ToList();
+            var query = fromExpressionMethod.Invoke(this.blazorApp1Context, new object[] { lambda });
+            if (query == null)
+            {
+                return this.StatusCode(500, "Query result is null");
+            }
+
+            var result = (query as IEnumerable<object>)?.ToList();
 
             return this.Ok(result);
         }

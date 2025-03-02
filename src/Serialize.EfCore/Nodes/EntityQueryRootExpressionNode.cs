@@ -66,27 +66,15 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Nodes
         public override Expression ToExpression(IExpressionContext context)
         {
             var elementType = ElementType!.ToType(context);
-#pragma warning disable EF1001 // Internal EF Core API usage.
-            var internalDbSetType = typeof(InternalDbSet<>).MakeGenericType(elementType);
-#pragma warning restore EF1001 // Internal EF Core API usage.
+            var queryableType = typeof(IQueryable<>).MakeGenericType(elementType);
 
-            // Create a parameter expression for QueryContext
-            var queryContextParameter = Expression.Parameter(typeof(QueryContext), "QueryContext");
+            var queryableExpression = Expression.Call(
+                typeof(Queryable),
+                nameof(Queryable.AsQueryable),
+                new[] { elementType },
+                Expression.Constant(null, queryableType));
 
-            // Access the Context property of QueryContext
-            var dbContextProperty = Expression.Property(queryContextParameter, "Context");
-
-            // Create a constant expression for elementType.Name
-            var elementTypeNameConstant = Expression.Constant(elementType.Name, typeof(string));
-
-            // Create a new expression for InternalDbSet<>
-            var newInternalDbSetExpression = Expression.New(
-                internalDbSetType.GetConstructor([typeof(DbContext), typeof(string)])!,
-                dbContextProperty,
-                elementTypeNameConstant
-            );
-
-            return newInternalDbSetExpression;
+            return queryableExpression;
         }
     }
 }

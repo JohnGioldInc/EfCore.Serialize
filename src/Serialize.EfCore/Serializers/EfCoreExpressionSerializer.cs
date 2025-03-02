@@ -29,23 +29,6 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Serializers
             base.AddKnownType(typeof(EntityQueryRootExpressionNode));
         }
 
-        ///// <summary>
-        ///// Converts the specified expression to a node.
-        ///// </summary>
-        ///// <param name="expression">The expression to convert.</param>
-        ///// <param name="factorySettings">The factory settings to use.</param>
-        ///// <returns>An <see cref="ExpressionNode"/> representing the serialized expression.</returns>
-
-        //public new  ExpressionNode Convert(Expression expression, FactorySettings? factorySettings = null)
-        //{
-        //    if (expression is EntityQueryRootExpression)
-        //    {
-        //        var factory = CreateFactory(expression, factorySettings);
-        //        return factory.Create(expression);
-        //    }
-        //    return base.Convert(expression, factorySettings);
-        //}
-
         /// <inheritdoc/>
         protected override INodeFactory CreateFactory(Expression expression, FactorySettings? factorySettings)
             => new EntityQueryRootExpressionNodeNodeFactory(factorySettings);
