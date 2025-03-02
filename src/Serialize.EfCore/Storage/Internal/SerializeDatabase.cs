@@ -3,12 +3,12 @@
 
 using System.Collections;
 using System.Linq.Expressions;
-using System.Threading;
+using Serialize.Linq.Serializers;
 using JohnGoldInc.EntityFrameworkCore.Serialize.Serializers;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Update;
-using Serialize.Linq.Serializers;
+using System.Reflection.Metadata.Ecma335;
 
 namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
 {
@@ -103,13 +103,23 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
             private sealed class QueryingEnumerator<E>(Task<IEnumerable<dynamic>> data, CancellationToken cancellationToken = default) : IAsyncEnumerator<E>, IEnumerator<E>
                 where E : class
             {
-                private IEnumerable<E>? enumerable;
-                private IEnumerator<E>? enumerableEnumerator;
+                private IEnumerable<dynamic>? enumerable;
+                private IEnumerator<dynamic>? enumerableEnumerator;
 
+                public E Current
+                {
+                    get {
+                        if (enumerableEnumerator!.Current is System.Text.Json.JsonElement jsonElement)
+                        {
+                            var result = System.Text.Json.JsonSerializer.Deserialize<E>(jsonElement)!;
 
-                public E Current => enumerableEnumerator!.Current!;
+                            return result;
+                        }
+                        return (E)enumerableEnumerator!.Current!;
+                    }
+                }
 
-                E IEnumerator<E>.Current => enumerableEnumerator!.Current!;
+                E IEnumerator<E>.Current => Current;
 
                 object IEnumerator.Current => Current;
 
@@ -137,7 +147,7 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
                         cancellationToken.ThrowIfCancellationRequested();
                     }
 
-                    enumerable ??= (await data.ConfigureAwait(false)).Cast<E>();
+                    enumerable ??= await data.ConfigureAwait(false);
                     enumerableEnumerator ??= enumerable.GetEnumerator();
 
                     return enumerableEnumerator!.MoveNext();

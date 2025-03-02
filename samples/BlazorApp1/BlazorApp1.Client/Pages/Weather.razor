@@ -44,7 +44,7 @@ else
     protected override async Task  OnInitializedAsync()
     {
         forecasts = await blazorApp1Context.WeatherForecast
-                        .Where(wf=>wf.TemperatureC>-999)
+                        .Where(wf => wf.TemperatureC > -999)
                         .ToListAsync();
     }
 }

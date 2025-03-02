@@ -5,14 +5,12 @@ namespace BlazorApp1.Controllers
 {
     using System.Collections.Generic;
     using System.Linq.Expressions;
-    using System.Text.Json.Serialization;
     using BlazorApp1.Data;
     using JohnGoldInc.EntityFrameworkCore.Serialize;
     using JohnGoldInc.EntityFrameworkCore.Serialize.Serializers;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Query;
     using Microsoft.EntityFrameworkCore.Update;
+    using Serialize.Linq.Interfaces;
     using Serialize.Linq.Serializers;
 
     /// <summary>
@@ -43,7 +41,9 @@ namespace BlazorApp1.Controllers
         [HttpPost("query")]
         public ActionResult<IEnumerable<object>> Query([FromBody] string serializedExpression)
         {
-            var expression = this.serializer.DeserializeText(serializedExpression);
+            IExpressionContext context = new SerializeExpressionContext(this.blazorApp1Context);
+
+            var expression = this.serializer.DeserializeText(serializedExpression, context);
             if (expression == null)
             {
                 return this.BadRequest("Invalid expression");

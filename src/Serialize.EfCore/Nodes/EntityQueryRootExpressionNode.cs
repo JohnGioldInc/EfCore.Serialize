@@ -4,7 +4,8 @@
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Query;
 using Serialize.Linq.Interfaces;
 using Serialize.Linq.Nodes;
@@ -66,15 +67,24 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Nodes
         public override Expression ToExpression(IExpressionContext context)
         {
             var elementType = ElementType!.ToType(context);
-            var queryableType = typeof(IQueryable<>).MakeGenericType(elementType);
 
-            var queryableExpression = Expression.Call(
-                typeof(Queryable),
-                nameof(Queryable.AsQueryable),
-                new[] { elementType },
-                Expression.Constant(null, queryableType));
+            IEntityType? entityType = null;
 
-            return queryableExpression;
+            if (context is SerializeExpressionContext seContext)
+            {
+                var dbContext = seContext.DbContext;
+                entityType = dbContext.Model.GetEntityTypes().FirstOrDefault(e => e.ClrType == elementType);
+            }
+            if (entityType == null)
+            {
+#pragma warning disable EF1001 // Internal EF Core API usage.
+                var model = new Model();
+
+                entityType = model.AddEntityType(elementType, false, ConfigurationSource.Explicit)!;
+#pragma warning restore EF1001 // Internal EF Core API usage.
+            }
+
+            return new EntityQueryRootExpression(entityType);
         }
     }
 }
