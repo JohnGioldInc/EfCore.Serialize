@@ -1,6 +1,6 @@
 # EfCore.Serialize Repository
 
-Client library for serializing and deserializing Entity Framework Core queries and saves Remotely.
+Client and Server library for serializing and deserializing Entity Framework Core queries and saves Remotely.
 
 Used Sterilize.Linq and EfCore.InMemory to abstract client calls to the server.
 
