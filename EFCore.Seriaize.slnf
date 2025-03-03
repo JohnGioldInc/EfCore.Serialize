@@ -1,0 +1,22 @@
+{
+  "solution": {
+    "path": "EFCore.sln",
+    "projects": [
+      "samples\\BlazorApp1\\BlazorApp1.Client\\BlazorApp1.Client.csproj",
+      "samples\\BlazorApp1\\BlazorApp1.Data\\BlazorApp1.Data.csproj",
+      "samples\\BlazorApp1\\BlazorApp1\\BlazorApp1.csproj",
+      "src\\EFCore.Abstractions\\EFCore.Abstractions.csproj",
+      "src\\EFCore.Analyzers\\EFCore.Analyzers.csproj",
+      "src\\EFCore.Proxies\\EFCore.Proxies.csproj",
+      "src\\EFCore\\EFCore.csproj",
+      "src\\EfCore.Serialize\\EfCore.Serialize.csproj",
+      "test\\EFCore.Analyzers.Tests\\EFCore.Analyzers.Tests.csproj",
+      "test\\EFCore.InMemory.FunctionalTests\\EFCore.InMemory.FunctionalTests.csproj",
+      "test\\EFCore.InMemory.Tests\\EFCore.InMemory.Tests.csproj",
+      "test\\EFCore.Serialize.FunctionalTests\\EFCore.Serialize.FunctionalTests.csproj",
+      "test\\EFCore.Serialize.Tests\\EFCore.Serialize.Tests.csproj",
+      "test\\EFCore.Specification.Tests\\EFCore.Specification.Tests.csproj",
+      "test\\EFCore.Tests\\EFCore.Tests.csproj"
+    ]
+  }
+}
