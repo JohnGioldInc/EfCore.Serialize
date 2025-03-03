@@ -6,6 +6,8 @@ Used Sterilize.Linq and EfCore.InMemory to abstract client calls to the server.
 
 Alternative to OData, GraphQL, and other REST database integrations
 
+[Code Samples](https://github.com/JohnGioldInc/EfCore.Serialize/tree/efcore.serialize-main/samples)
+
 ## Client Usage
 ```cs
 var httpClient = new HttpClient();
