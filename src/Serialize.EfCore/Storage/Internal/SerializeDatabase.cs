@@ -97,6 +97,7 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
 
             public IEnumerator<T> GetEnumerator()
                  => enumerator ?? (enumerator = new QueryingEnumerator<T>(data));
+
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
             private sealed class QueryingEnumerator<E>(Task<string> data, CancellationToken cancellationToken = default) : IAsyncEnumerator<E>, IEnumerator<E>

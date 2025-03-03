@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 #pragma warning disable SA1200 // Using directives should be placed correctly
-using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -28,9 +27,9 @@ var httpClient = new HttpClient();
 
 httpClient.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
 
-Func<string, CancellationToken, Task<string>> dataProvider = async (json, cancellationToken) =>
+Func<string, CancellationToken, Task<string>> dataProvider = async (jsonExpression, cancellationToken) =>
 {
-    var response = await httpClient.PostAsync(new Uri("/api/data/query", UriKind.Relative), new StringContent(json, MediaTypeHeaderValue.Parse("application/json"))).ConfigureAwait(false);
+    var response = await httpClient.PostAsync(new Uri("/api/data/query", UriKind.Relative), new StringContent(jsonExpression, MediaTypeHeaderValue.Parse("application/json"))).ConfigureAwait(false);
 
     if (response.StatusCode is HttpStatusCode.InternalServerError)
     {
@@ -63,6 +62,6 @@ Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> changeSaveProvider
 };
 
 builder.Services
-    .AddDbContext<BlazorApp1Context>(options => options.UseSerializeDatabase(Guid.NewGuid().ToString(), dataProvider, changeSaveProvider));
+    .AddDbContext<BlazorApp1Context>(options => options.UseSerializeDatabase(dataProvider, changeSaveProvider));
 
 await builder.Build().RunAsync();

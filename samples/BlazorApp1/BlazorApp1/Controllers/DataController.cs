@@ -4,14 +4,9 @@
 namespace BlazorApp1.Controllers
 {
     using System.Collections.Generic;
-    using System.Linq.Expressions;
     using BlazorApp1.Data;
-    using JohnGoldInc.EntityFrameworkCore.Serialize;
-    using JohnGoldInc.EntityFrameworkCore.Serialize.Serializers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore.Update;
-    using Serialize.Linq.Interfaces;
-    using Serialize.Linq.Serializers;
 
     /// <summary>
     /// DataController.
@@ -21,7 +16,6 @@ namespace BlazorApp1.Controllers
     public class DataController : ControllerBase
     {
         private readonly BlazorApp1Context blazorApp1Context;
-        private readonly EfCoreExpressionSerializer serializer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DataController"/> class.
@@ -30,7 +24,6 @@ namespace BlazorApp1.Controllers
         public DataController(BlazorApp1Context blazorApp1Context)
         {
             this.blazorApp1Context = blazorApp1Context;
-            this.serializer = new EfCoreExpressionSerializer(new JsonSerializer());
         }
 
         /// <summary>
@@ -40,44 +33,7 @@ namespace BlazorApp1.Controllers
         /// <returns>Data.</returns>
         [HttpPost("query")]
         public ActionResult<IEnumerable<object>> Query([FromBody] string serializedExpression)
-        {
-            IExpressionContext context = new SerializeExpressionContext(this.blazorApp1Context);
-
-            var expression = this.serializer.DeserializeText(serializedExpression, context);
-            if (expression == null)
-            {
-                return this.BadRequest("Invalid expression");
-            }
-
-            var genericArgumentType = expression.Type.GetGenericArguments().FirstOrDefault();
-            if (genericArgumentType == null)
-            {
-                return this.BadRequest("Invalid expression return type");
-            }
-
-            var queryableType = typeof(IQueryable<>).MakeGenericType(genericArgumentType);
-            var funcType = typeof(Func<>).MakeGenericType(queryableType);
-            var lambda = Expression.Lambda(funcType, expression);
-
-            var fromExpressionMethod = typeof(BlazorApp1Context)
-                .GetMethod(nameof(BlazorApp1Context.FromExpression))
-                ?.MakeGenericMethod(genericArgumentType);
-
-            if (fromExpressionMethod == null)
-            {
-                return this.StatusCode(500, "Unable to find FromExpression method");
-            }
-
-            var query = fromExpressionMethod.Invoke(this.blazorApp1Context, new object[] { lambda });
-            if (query == null)
-            {
-                return this.StatusCode(500, "Query result is null");
-            }
-
-            var result = (query as IEnumerable<object>)?.ToList();
-
-            return this.Ok(result);
-        }
+            => this.Ok(this.blazorApp1Context.FromSerializedExpression(serializedExpression));
 
         /// <summary>
         /// Save Data.
