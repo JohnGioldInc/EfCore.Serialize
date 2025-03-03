@@ -3,9 +3,9 @@
 
 using System.Transactions;
 using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
-using Microsoft.EntityFrameworkCore.InMemory.Diagnostics.Internal;
-using Microsoft.EntityFrameworkCore.InMemory.Internal;
-using Microsoft.EntityFrameworkCore.InMemory.Storage.Internal;
+using JohnGoldInc.EntityFrameworkCore.Serialize.Diagnostics.Internal;
+using JohnGoldInc.EntityFrameworkCore.Serialize.Internal;
+using JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal;
 
 // ReSharper disable InconsistentNaming
 namespace Microsoft.EntityFrameworkCore.Storage;

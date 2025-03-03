@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>$(DefaultNetCoreTargetFramework)</TargetFramework>
-    <AssemblyName>Microsoft.EntityFrameworkCore.InMemory.Tests</AssemblyName>
+    <AssemblyName>JohnGoldInc.EntityFrameworkCore.Serialize.Tests</AssemblyName>
     <RootNamespace>Microsoft.EntityFrameworkCore</RootNamespace>
     <ImplicitUsings>true</ImplicitUsings>
     <Nullable>disable</Nullable>
@@ -18,7 +18,7 @@
     <Using Include="Microsoft.EntityFrameworkCore.Diagnostics" />
     <Using Include="Microsoft.EntityFrameworkCore.Design" />
     <Using Include="Microsoft.EntityFrameworkCore.Infrastructure" />
-    <Using Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <Using Include="JohnGoldInc.EntityFrameworkCore.Serialize" />
     <Using Include="Microsoft.EntityFrameworkCore.Metadata" />
     <Using Include="Microsoft.EntityFrameworkCore.Metadata.Builders" />
     <Using Include="Microsoft.EntityFrameworkCore.Metadata.Conventions" />

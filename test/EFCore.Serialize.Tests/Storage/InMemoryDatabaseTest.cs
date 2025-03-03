@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using Microsoft.EntityFrameworkCore.InMemory.Diagnostics.Internal;
-using Microsoft.EntityFrameworkCore.InMemory.Internal;
-using Microsoft.EntityFrameworkCore.InMemory.Storage.Internal;
+using JohnGoldInc.EntityFrameworkCore.Serialize.Diagnostics.Internal;
+using JohnGoldInc.EntityFrameworkCore.Serialize.Internal;
+using JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal;
 
 // ReSharper disable InconsistentNaming
 
