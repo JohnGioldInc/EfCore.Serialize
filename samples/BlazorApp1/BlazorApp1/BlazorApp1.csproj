@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" />
-    <ProjectReference Include="..\..\..\src\Serialize.EfCore\Serialize.EfCore.csproj" />
+    <ProjectReference Include="..\..\..\src\EFCore.Serialize\EfCore.Serialize.csproj" />
     <ProjectReference Include="..\BlazorApp1.Client\BlazorApp1.Client.csproj" />
     <ProjectReference Include="..\BlazorApp1.Data\BlazorApp1.Data.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
