@@ -21,8 +21,6 @@ var jsonSerializerOptions = new JsonSerializerOptions
     PropertyNameCaseInsensitive = true,
 };
 
-var serializer = new ExpressionSerializer(new Serialize.Linq.Serializers.JsonSerializer());
-
 var httpClient = new HttpClient();
 
 httpClient.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);

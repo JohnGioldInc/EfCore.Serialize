@@ -8,8 +8,6 @@ Alternative to OData, GraphQL, and other REST database integrations
 
 ## Client Usage
 ```cs
-var serializer = new ExpressionSerializer(new Serialize.Linq.Serializers.JsonSerializer());
-
 var httpClient = new HttpClient();
 
 httpClient.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
