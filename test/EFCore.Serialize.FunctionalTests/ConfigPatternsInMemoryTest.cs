@@ -36,14 +36,14 @@ public class ConfigPatternsInMemoryTest
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
-                .UseInMemoryDatabase(nameof(ImplicitServicesAndConfigBlogContext));
+                .UseSerializeToInMemoryDatabase<ImplicitServicesAndConfigBlogContext>(nameof(ImplicitServicesAndConfigBlogContext));
     }
 
     [ConditionalFact]
     public void Can_save_and_query_with_implicit_services_and_explicit_config()
     {
         var optionsBuilder = new DbContextOptionsBuilder();
-        optionsBuilder.UseInMemoryDatabase(nameof(ImplicitServicesExplicitConfigBlogContext));
+        optionsBuilder.UseSerializeToInMemoryDatabase<ImplicitServicesExplicitConfigBlogContext>(nameof(ImplicitServicesExplicitConfigBlogContext));
 
         using (var context = new ImplicitServicesExplicitConfigBlogContext(optionsBuilder.Options))
         {
@@ -110,14 +110,14 @@ public class ConfigPatternsInMemoryTest
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(_serviceProvider)
-                .UseInMemoryDatabase(nameof(ExplicitServicesImplicitConfigBlogContext));
+                .UseSerializeToInMemoryDatabase<ExplicitServicesImplicitConfigBlogContext>(nameof(ExplicitServicesImplicitConfigBlogContext));
     }
 
     [ConditionalFact]
     public void Can_save_and_query_with_explicit_services_and_explicit_config()
     {
         var optionsBuilder = new DbContextOptionsBuilder()
-            .UseInMemoryDatabase(nameof(ExplicitServicesAndConfigBlogContext))
+            .UseSerializeToInMemoryDatabase<ExplicitServicesAndConfigBlogContext>(nameof(ExplicitServicesAndConfigBlogContext))
             .UseInternalServiceProvider(
                 new ServiceCollection()
                     .AddEntityFrameworkInMemoryDatabase().BuildServiceProvider(validateScopes: true));
@@ -199,7 +199,7 @@ public class ConfigPatternsInMemoryTest
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
-                .UseInMemoryDatabase(nameof(ImplicitConfigButNoServicesBlogContext))
+                .UseSerializeToInMemoryDatabase<ImplicitConfigButNoServicesBlogContext>(nameof(ImplicitConfigButNoServicesBlogContext))
                 .UseInternalServiceProvider(_serviceProvider);
     }
 
@@ -252,7 +252,7 @@ public class ConfigPatternsInMemoryTest
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
-                .UseInMemoryDatabase(nameof(InjectContextBlogContext))
+                .UseSerializeToInMemoryDatabase<InjectContextBlogContext>(nameof(InjectContextBlogContext))
                 .UseInternalServiceProvider(_serviceProvider);
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
@@ -263,7 +263,7 @@ public class ConfigPatternsInMemoryTest
     public void Can_register_context_and_configuration_with_DI_container_and_have_both_injected()
     {
         var optionsBuilder = new DbContextOptionsBuilder()
-            .UseInMemoryDatabase(nameof(InjectContextAndConfigurationBlogContext));
+            .UseSerializeToInMemoryDatabase<InjectContextAndConfigurationBlogContext>(nameof(InjectContextAndConfigurationBlogContext));
 
         var serviceProvider = new ServiceCollection()
             .AddTransient<InjectContextAndConfigurationBlogContext>()
@@ -315,7 +315,7 @@ public class ConfigPatternsInMemoryTest
         var optionsBuilder = new DbContextOptionsBuilder();
         optionsBuilder
             .EnableServiceProviderCaching(false)
-            .UseInMemoryDatabase(nameof(InjectConfigurationBlogContext));
+            .UseSerializeToInMemoryDatabase<InjectConfigurationBlogContext>(nameof(InjectConfigurationBlogContext));
 
         var services = new ServiceCollection();
         services.AddTransient<InjectConfigurationBlogContext>()
@@ -369,10 +369,10 @@ public class ConfigPatternsInMemoryTest
     public void Can_inject_different_configurations_into_different_contexts()
     {
         var blogOptions = new DbContextOptionsBuilder<InjectDifferentConfigurationsBlogContext>()
-            .UseInMemoryDatabase(nameof(InjectDifferentConfigurationsBlogContext));
+            .UseSerializeToInMemoryDatabase<InjectDifferentConfigurationsBlogContext>(nameof(InjectDifferentConfigurationsBlogContext));
 
         var accountOptions = new DbContextOptionsBuilder<InjectDifferentConfigurationsAccountContext>()
-            .UseInMemoryDatabase(nameof(InjectDifferentConfigurationsAccountContext));
+            .UseSerializeToInMemoryDatabase<InjectDifferentConfigurationsAccountContext>(nameof(InjectDifferentConfigurationsAccountContext));
 
         var serviceProvider = new ServiceCollection()
             .AddTransient<InjectDifferentConfigurationsBlogContext>()

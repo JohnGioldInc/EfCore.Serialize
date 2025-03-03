@@ -39,7 +39,7 @@ public class CustomValueGeneratorTest
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(_serviceProvider)
-                .UseInMemoryDatabase(nameof(CustomValueGeneratorContext));
+                .UseSerializeToInMemoryDatabase<CustomValueGeneratorContext>(nameof(CustomValueGeneratorContext));
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             => modelBuilder
@@ -86,7 +86,7 @@ public class CustomValueGeneratorTest
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(_serviceProvider)
-                .UseInMemoryDatabase(nameof(CustomValueGeneratorContextAnnotateType));
+                .UseSerializeToInMemoryDatabase<CustomValueGeneratorContextAnnotateType>(nameof(CustomValueGeneratorContextAnnotateType));
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             => modelBuilder
@@ -128,7 +128,7 @@ public class CustomValueGeneratorTest
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(_serviceProvider)
-                .UseInMemoryDatabase(nameof(CustomValueGeneratorContextAnnotateFactory));
+                .UseSerializeToInMemoryDatabase<CustomValueGeneratorContextAnnotateFactory>(nameof(CustomValueGeneratorContextAnnotateFactory));
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             => modelBuilder

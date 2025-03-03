@@ -18,7 +18,7 @@ public class InMemoryDatabaseProviderTest
     public void Is_configured_when_configuration_contains_associated_extension()
     {
         var optionsBuilder = new DbContextOptionsBuilder();
-        optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
+        optionsBuilder.UseSerializeToInMemoryDatabase<>(Guid.NewGuid().ToString());
 
         Assert.True(
             new DatabaseProvider<InMemoryOptionsExtension>(new DatabaseProviderDependencies()).IsConfigured(optionsBuilder.Options));

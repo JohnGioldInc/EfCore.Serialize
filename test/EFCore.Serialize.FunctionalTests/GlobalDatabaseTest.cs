@@ -15,7 +15,7 @@ public class GlobalDatabaseTest
     {
         using (var context = new BooFooContext(
                    new DbContextOptionsBuilder()
-                       .UseInMemoryDatabase(nameof(BooFooContext))
+                       .UseSerializeToInMemoryDatabase<BooFooContext>(nameof(BooFooContext))
                        .Options))
         {
             context.Add(new Foo());
@@ -24,7 +24,7 @@ public class GlobalDatabaseTest
 
         using (var context = new BooFooContext(
                    new DbContextOptionsBuilder()
-                       .UseInMemoryDatabase(nameof(BooFooContext))
+                       .UseSerializeToInMemoryDatabase<BooFooContext>(nameof(BooFooContext))
                        .EnableSensitiveDataLogging()
                        .Options))
         {
@@ -37,7 +37,7 @@ public class GlobalDatabaseTest
     {
         using (var context = new BooFooContext(
                    new DbContextOptionsBuilder()
-                       .UseInMemoryDatabase(nameof(BooFooContext))
+                       .UseSerializeToInMemoryDatabase<BooFooContext>(nameof(BooFooContext))
                        .Options))
         {
             context.Add(new Foo());
@@ -46,7 +46,7 @@ public class GlobalDatabaseTest
 
         var serviceProvider = new ServiceCollection()
             .AddDbContext<BooFooContext>(
-                b => b.UseInMemoryDatabase(nameof(BooFooContext)))
+                b => b.UseSerializeToInMemoryDatabase<BooFooContext>(nameof(BooFooContext)))
             .BuildServiceProvider(validateScopes: true);
 
         using var scope = serviceProvider.CreateScope();
@@ -62,7 +62,7 @@ public class GlobalDatabaseTest
         using (var context = new BooFooContext(
                    new DbContextOptionsBuilder()
                        .EnableServiceProviderCaching(false)
-                       .UseInMemoryDatabase(nameof(BooFooContext), _databaseRoot)
+                       .UseSerializeToInMemoryDatabase<BooFooContext>(nameof(BooFooContext), _databaseRoot)
                        .Options))
         {
             context.Add(new Foo());
@@ -72,7 +72,7 @@ public class GlobalDatabaseTest
         using (var context = new BooFooContext(
                    new DbContextOptionsBuilder()
                        .EnableServiceProviderCaching(false)
-                       .UseInMemoryDatabase(nameof(BooFooContext), _databaseRoot)
+                       .UseSerializeToInMemoryDatabase<BooFooContext>(nameof(BooFooContext), _databaseRoot)
                        .EnableSensitiveDataLogging()
                        .Options))
         {
@@ -84,7 +84,7 @@ public class GlobalDatabaseTest
     public void Owned_types_are_found_correctly_with_database_root()
     {
         var options = new DbContextOptionsBuilder()
-            .UseInMemoryDatabase("20784", _databaseRoot)
+            .UseSerializeToInMemoryDatabase<BooFooContext>("20784", _databaseRoot)
             .Options;
 
         using (var context = new BooFooContext(options))
@@ -122,7 +122,7 @@ public class GlobalDatabaseTest
         using (var context = new BooFooContext(
                    new DbContextOptionsBuilder()
                        .EnableServiceProviderCaching(false)
-                       .UseInMemoryDatabase(nameof(BooFooContext), _databaseRoot)
+                       .UseSerializeToInMemoryDatabase<BooFooContext>(nameof(BooFooContext), _databaseRoot)
                        .Options))
         {
             context.Add(new Boo());
@@ -132,7 +132,7 @@ public class GlobalDatabaseTest
         var serviceProvider = new ServiceCollection()
             .AddDbContext<BooFooContext>(
                 b =>
-                    b.UseInMemoryDatabase(nameof(BooFooContext), _databaseRoot)
+                    b.UseSerializeToInMemoryDatabase<BooFooContext>(nameof(BooFooContext), _databaseRoot)
                         .EnableServiceProviderCaching(false))
             .BuildServiceProvider(validateScopes: true);
 
@@ -157,9 +157,9 @@ public class GlobalDatabaseTest
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
-                .UseInMemoryDatabase(
+                .UseSerializeToInMemoryDatabase<BooFooContext>(
                     nameof(ChangeNullabilityChecksCacheContext),
-                    b => b.EnableNullChecks(_enableNullChecks));
+                    inMemoryOptionsAction: b => b.EnableNullChecks(_enableNullChecks));
     }
 
     [ConditionalFact]
@@ -174,7 +174,7 @@ public class GlobalDatabaseTest
         {
             Assert.Equal(
                 CoreStrings.SingletonOptionChanged(
-                    nameof(InMemoryDbContextOptionsExtensions.UseInMemoryDatabase),
+                    nameof(SerializeToInMemoryDbContextOptionsExtensions.UseSerializeToInMemoryDatabase),
                     nameof(DbContextOptionsBuilder.UseInternalServiceProvider)),
                 Assert.Throws<InvalidOperationException>(() => context.Model).Message);
         }
@@ -192,7 +192,7 @@ public class GlobalDatabaseTest
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(_serviceProvider)
-                .UseInMemoryDatabase(nameof(ChangeSdlCacheContext), _on ? _databaseRoot : null);
+                .UseSerializeToInMemoryDatabase<ChangeSdlCacheContext>(nameof(ChangeSdlCacheContext), _on ? _databaseRoot : null);
     }
 
     [ConditionalFact]
@@ -225,7 +225,8 @@ public class GlobalDatabaseTest
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(_serviceProvider)
-                .UseInMemoryDatabase(nameof(ChangeSdlCacheContext), b => b.EnableNullChecks(_on));
+                .UseSerializeToInMemoryDatabase<ChangeNullabilityChecksCacheContext>(nameof(ChangeSdlCacheContext),
+                inMemoryOptionsAction: b => b.EnableNullChecks(_on));
     }
 
     private class BooFooContext(DbContextOptions options) : DbContext(options)

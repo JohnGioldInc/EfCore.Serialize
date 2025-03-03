@@ -2666,7 +2666,7 @@ public class StoreGeneratedInMemoryTest
         private readonly string _databaseName = databaseName;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseInMemoryDatabase(_databaseName);
+            => optionsBuilder.UseSerializeToInMemoryDatabase<StoreContext>(_databaseName);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

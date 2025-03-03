@@ -14,6 +14,6 @@ public class SeedingInMemoryTest : SeedingTestBase
     protected class SeedingInMemoryContext(string testId) : SeedingContext(testId)
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseInMemoryDatabase($"Seeds{TestId}");
+            => optionsBuilder.UseSerializeToInMemoryDatabase<SeedingContext>($"Seeds{TestId}");
     }
 }

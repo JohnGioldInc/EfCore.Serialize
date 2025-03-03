@@ -110,7 +110,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("9849");
+                .UseSerializeToInMemoryDatabase<DatabaseContext>("9849");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -214,7 +214,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("3595");
+                .UseSerializeToInMemoryDatabase<Context3595>("3595");
     }
 
     #endregion
@@ -429,7 +429,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("3101");
+                .UseSerializeToInMemoryDatabase<MyContext3101>("3101");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             => modelBuilder.Entity<Entity3101>().Property(e => e.Id).ValueGeneratedNever();
@@ -603,7 +603,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("5456");
+                .UseSerializeToInMemoryDatabase<MyContext5456>("5456");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             => modelBuilder.Entity<Blog5456>().Property(e => e.Id).ValueGeneratedNever();
@@ -659,7 +659,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("8282");
+                .UseSerializeToInMemoryDatabase<MyContext8282>("8282");
     }
 
     private class Entity8282
@@ -724,7 +724,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("21803");
+                .UseSerializeToInMemoryDatabase<MyContext21803>("21803");
     }
 
     #endregion
@@ -802,7 +802,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("20729");
+                .UseSerializeToInMemoryDatabase<MyContext20729>("20729");
     }
 
     #endregion
@@ -861,7 +861,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("23285");
+                .UseSerializeToInMemoryDatabase<MyContext23285>("23285");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -925,7 +925,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("23687");
+                .UseSerializeToInMemoryDatabase<MyContext23687>("23687");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             => modelBuilder.Entity<Root23687>();
@@ -1021,7 +1021,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("23593");
+                .UseSerializeToInMemoryDatabase<MyContext23593>("23593");
     }
 
     #endregion
@@ -1083,7 +1083,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("23926");
+                .UseSerializeToInMemoryDatabase<MyContext23926>("23926");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             => modelBuilder.Entity<User23926>().HasDiscriminator(e => e.Type)
@@ -1178,7 +1178,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("18435");
+                .UseSerializeToInMemoryDatabase<MyContext18435>("18435");
     }
 
     #endregion
@@ -1226,7 +1226,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("19425");
+                .UseSerializeToInMemoryDatabase<MyContext19425>("19425");
     }
 
     #endregion
@@ -1275,7 +1275,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("19667");
+                .UseSerializeToInMemoryDatabase<MyContext19667>("19667");
     }
 
     #endregion
@@ -1347,7 +1347,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("20359");
+                .UseSerializeToInMemoryDatabase<MyContext20359>("20359");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -1450,7 +1450,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("23360");
+                .UseSerializeToInMemoryDatabase<MyContext23360>("23360");
     }
 
     #endregion
@@ -1555,7 +1555,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("18394");
+                .UseSerializeToInMemoryDatabase<MyContext18394>("18394");
     }
 
     #endregion
@@ -1625,7 +1625,7 @@ public class QueryBugsInMemoryTest : IClassFixture<InMemoryFixture>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("23934");
+                .UseSerializeToInMemoryDatabase<MyContext23934>("23934");
     }
 
     #endregion

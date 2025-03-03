@@ -367,11 +367,11 @@ public class IntegerValueGeneratorTest
 
             if (_root == null)
             {
-                optionsBuilder.UseInMemoryDatabase(_databaseName);
+                optionsBuilder.UseSerializeToInMemoryDatabase<PetsContext>(_databaseName);
             }
             else
             {
-                optionsBuilder.UseInMemoryDatabase(_databaseName, _root);
+                optionsBuilder.UseSerializeToInMemoryDatabase<PetsContext>(_databaseName, _root);
             }
         }
 

@@ -210,11 +210,11 @@ public class NamedDatabaseTest
             {
                 optionsBuilder
                     .EnableServiceProviderCaching(false)
-                    .UseInMemoryDatabase(Guid.NewGuid().ToString());
+                    .UseSerializeToInMemoryDatabase<PusheenContext>(Guid.NewGuid().ToString());
             }
             else
             {
-                optionsBuilder.UseInMemoryDatabase(_databaseName);
+                optionsBuilder.UseSerializeToInMemoryDatabase<PusheenContext>(_databaseName);
             }
         }
     }

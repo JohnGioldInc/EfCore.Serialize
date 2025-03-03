@@ -46,7 +46,7 @@ public class GuidValueGeneratorEndToEndTest
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
-                .UseInMemoryDatabase(nameof(BronieContext))
+                .UseSerializeToInMemoryDatabase<BronieContext>(nameof(BronieContext))
                 .UseInternalServiceProvider(_serviceProvider);
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local

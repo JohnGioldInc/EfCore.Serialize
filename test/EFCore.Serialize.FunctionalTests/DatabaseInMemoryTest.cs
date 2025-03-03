@@ -27,7 +27,7 @@ public class DatabaseInMemoryTest
 
         var options = new DbContextOptionsBuilder()
             .UseInternalServiceProvider(serviceProvider)
-            .UseInMemoryDatabase(nameof(DatabaseInMemoryTest))
+            .UseSerializeToInMemoryDatabase<DbContext>(nameof(DatabaseInMemoryTest))
             .Options;
 
         var customer = new Customer { Id = 42, Name = "Theon" };
@@ -125,7 +125,7 @@ public class DatabaseInMemoryTest
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase(nameof(SimpleContext));
+                .UseSerializeToInMemoryDatabase<SimpleContext>(nameof(SimpleContext));
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             => modelBuilder.Entity<Artist>().HasKey(a => a.ArtistId);

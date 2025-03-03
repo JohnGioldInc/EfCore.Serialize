@@ -42,7 +42,7 @@ public class ModelSourceTest
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
-                .UseInMemoryDatabase(nameof(JustSomeContext))
+                .UseSerializeToInMemoryDatabase<JustSomeContext>(nameof(JustSomeContext))
                 .UseInternalServiceProvider(_serviceProvider);
     }
 

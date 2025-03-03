@@ -16,7 +16,7 @@ public class ShadowStateUpdateTest(InMemoryFixture fixture) : IClassFixture<InMe
 
         var optionsBuilder = new DbContextOptionsBuilder()
             .UseModel(modelBuilder.FinalizeModel())
-            .UseInMemoryDatabase(nameof(ShadowStateUpdateTest))
+            .UseSerializeToInMemoryDatabase<DbContext>(nameof(ShadowStateUpdateTest))
             .UseInternalServiceProvider(_fixture.ServiceProvider);
 
         var customer = new Customer { Id = 42 };

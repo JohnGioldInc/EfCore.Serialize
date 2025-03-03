@@ -147,7 +147,7 @@ public class DatabaseErrorLogStateTest
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .UseSerializeToInMemoryDatabase<BloggingContext>(Guid.NewGuid().ToString())
                 .UseInternalServiceProvider(_serviceProvider);
     }
 

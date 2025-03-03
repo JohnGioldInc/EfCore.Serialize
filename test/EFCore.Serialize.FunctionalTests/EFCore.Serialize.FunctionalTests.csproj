@@ -25,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="System.Diagnostics" />
     <Using Include="System.Linq.Expressions" />
     <Using Include="System.Reflection" />
@@ -34,7 +38,7 @@
     <Using Include="Microsoft.EntityFrameworkCore.Diagnostics" />
     <Using Include="Microsoft.EntityFrameworkCore.Design" />
     <Using Include="Microsoft.EntityFrameworkCore.Infrastructure" />
-    <Using Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <Using Include="JohnGoldInc.EntityFrameworkCore.Serialize" />
     <Using Include="Microsoft.EntityFrameworkCore.Metadata" />
     <Using Include="Microsoft.EntityFrameworkCore.Metadata.Builders" />
     <Using Include="Microsoft.EntityFrameworkCore.Metadata.Conventions" />

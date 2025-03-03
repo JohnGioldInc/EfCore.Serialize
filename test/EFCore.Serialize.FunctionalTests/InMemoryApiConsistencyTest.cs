@@ -19,7 +19,7 @@ public class InMemoryApiConsistencyTest(InMemoryApiConsistencyTest.InMemoryApiCo
         public override HashSet<Type> FluentApiTypes { get; } =
         [
             typeof(InMemoryServiceCollectionExtensions),
-            typeof(InMemoryDbContextOptionsExtensions),
+            typeof(SerializeToInMemoryDbContextOptionsExtensions),
             typeof(InMemoryDbContextOptionsBuilder)
         ];
     }

@@ -183,7 +183,7 @@ public class CompositeKeyEndToEndTest
         public DbSet<EarthPony> EarthPonies { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseInMemoryDatabase(nameof(BronieContext)).UseInternalServiceProvider(_serviceProvider);
+            => optionsBuilder.UseSerializeToInMemoryDatabase<BronieContext>(nameof(BronieContext)).UseInternalServiceProvider(_serviceProvider);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

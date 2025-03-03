@@ -43,7 +43,7 @@ public class InMemoryDatabaseCreatorTest
     private static InMemoryDatabaseCreator CreateDatabaseCreator(IServiceProvider serviceProvider)
     {
         var optionsBuilder = new DbContextOptionsBuilder();
-        optionsBuilder.UseInMemoryDatabase(nameof(InMemoryDatabaseCreatorTest));
+        optionsBuilder.UseSerializeToInMemoryDatabase<FraggleContext>(nameof(InMemoryDatabaseCreatorTest));
 
         var contextServices = InMemoryTestHelpers.Instance.CreateContextServices(serviceProvider, optionsBuilder.Options);
         return new InMemoryDatabaseCreator(
@@ -132,7 +132,7 @@ public class InMemoryDatabaseCreatorTest
         {
             optionsBuilder
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase(nameof(FraggleContext));
+                .UseSerializeToInMemoryDatabase<FraggleContext>(nameof(FraggleContext));
 
             if (seed)
             {

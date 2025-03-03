@@ -56,7 +56,7 @@ public class InMemoryDatabaseTest
     private static IServiceProvider CreateContextServices(IServiceProvider serviceProvider)
     {
         var optionsBuilder = new DbContextOptionsBuilder();
-        optionsBuilder.UseInMemoryDatabase(nameof(InMemoryDatabaseCreatorTest));
+        optionsBuilder.UseSerializeToInMemoryDatabase<InMemoryDatabaseCreatorTest>(nameof(InMemoryDatabaseCreatorTest));
 
         return InMemoryTestHelpers.Instance.CreateContextServices(serviceProvider, optionsBuilder.Options);
     }

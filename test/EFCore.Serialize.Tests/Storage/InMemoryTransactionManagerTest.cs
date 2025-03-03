@@ -18,7 +18,7 @@ public class InMemoryTransactionManagerTest
             => optionsBuilder
                 .ReplaceService<IDbContextTransactionManager, FakeTransactionManager>()
                 .EnableServiceProviderCaching(false)
-                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+                .UseSerializeToInMemoryDatabase<>(Guid.NewGuid().ToString());
     }
 
     private class FakeTransactionManager : IDbContextTransactionManager

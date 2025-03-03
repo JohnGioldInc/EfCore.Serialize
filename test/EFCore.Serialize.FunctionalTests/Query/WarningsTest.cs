@@ -19,7 +19,7 @@ public class WarningsTest
         var optionsBuilder
             = new DbContextOptionsBuilder()
                 .EnableServiceProviderCaching(false)
-                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+                .UseSerializeToInMemoryDatabase<DbContext>(Guid.NewGuid().ToString());
 
         using var context = new DbContext(optionsBuilder.Options);
         Assert.Equal(
@@ -37,7 +37,7 @@ public class WarningsTest
         var optionsBuilder
             = new DbContextOptionsBuilder()
                 .EnableServiceProviderCaching(false)
-                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+                .UseSerializeToInMemoryDatabase<DbContext>(Guid.NewGuid().ToString());
 
         using var context = new DbContext(optionsBuilder.Options);
         Assert.Equal(
@@ -56,7 +56,7 @@ public class WarningsTest
             = new DbContextOptionsBuilder()
                 .ConfigureWarnings(w => w.Ignore(InMemoryEventId.TransactionIgnoredWarning))
                 .EnableServiceProviderCaching(false)
-                .UseInMemoryDatabase(Guid.NewGuid().ToString());
+                .UseSerializeToInMemoryDatabase<DbContext>(Guid.NewGuid().ToString());
 
         using var context = new DbContext(optionsBuilder.Options);
         context.Database.BeginTransaction();
@@ -254,7 +254,7 @@ public class WarningsTest
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .UseInternalServiceProvider(_serviceProvider)
-                .UseInMemoryDatabase(nameof(WarningAsErrorContext)).ConfigureWarnings(
+                .UseSerializeToInMemoryDatabase<WarningAsErrorContext>(nameof(WarningAsErrorContext)).ConfigureWarnings(
                     c =>
                     {
                         if (_toThrow != null)

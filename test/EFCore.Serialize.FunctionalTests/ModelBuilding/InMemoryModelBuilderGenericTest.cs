@@ -89,7 +89,7 @@ public class InMemoryModelBuilderGenericTest : InMemoryModelBuilderTest
             var contextOptions = new DbContextOptionsBuilder()
                 .UseModel(modelBuilder.Model.FinalizeModel())
                 .UseInternalServiceProvider(InMemoryFixture.DefaultNullabilityCheckProvider)
-                .UseInMemoryDatabase("Can_use_self_referencing_overlapping_FK_PK", b => b.EnableNullChecks(false))
+                .UseSerializeToInMemoryDatabase<DbContext>("Can_use_self_referencing_overlapping_FK_PK", inMemoryOptionsAction: b => b.EnableNullChecks(false))
                 .Options;
 
             using (var context = new DbContext(contextOptions))
@@ -217,7 +217,7 @@ public class InMemoryModelBuilderGenericTest : InMemoryModelBuilderTest
             var contextOptions = new DbContextOptionsBuilder()
                 .UseModel(modelBuilder.Model.FinalizeModel())
                 .UseInternalServiceProvider(InMemoryFixture.DefaultServiceProvider)
-                .UseInMemoryDatabase("Can_use_self_referencing_overlapping_FK_PK_one_to_one")
+                .UseSerializeToInMemoryDatabase<DbContext>("Can_use_self_referencing_overlapping_FK_PK_one_to_one")
                 .Options;
 
             using (var context = new DbContext(contextOptions))

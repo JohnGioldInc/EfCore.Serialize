@@ -37,7 +37,7 @@ public class EndToEndInMemoryTest(InMemoryFixture fixture) : IClassFixture<InMem
 
         var optionsBuilder = new DbContextOptionsBuilder()
             .UseModel(modelBuilder.FinalizeModel())
-            .UseInMemoryDatabase(nameof(EndToEndInMemoryTest))
+            .UseSerializeToInMemoryDatabase<DbContext>(nameof(EndToEndInMemoryTest))
             .UseInternalServiceProvider(Fixture.ServiceProvider);
 
         T entity;
