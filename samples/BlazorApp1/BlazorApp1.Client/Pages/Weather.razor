@@ -19,6 +19,7 @@ else
                 <th aria-label="Temperature in Celsius">Temp. (C)</th>
                 <th aria-label="Temperature in Farenheit">Temp. (F)</th>
                 <th>Summary</th>
+                <th>Precipitation By Hour</th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +30,26 @@ else
                     <td>@forecast.TemperatureC</td>
                     <td>@forecast.TemperatureF</td>
                     <td>@forecast.Summary</td>
+                    <td>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Hour</th>
+                                    <th>Chance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var precipitation in @forecast.PrecipitationByHour!)
+                                {
+                                    <tr>
+                                        <td>@precipitation.Hour</td>
+                                        <td>@precipitation.Chance</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -45,6 +66,8 @@ else
     {
         forecasts = await blazorApp1Context.WeatherForecast
                         .Where(wf => wf.TemperatureC > -999)
+                        .Include(wf => wf.PrecipitationByHour)
+                        .OrderByDescending(wf => wf.Date)
                         .ToListAsync();
     }
 }
