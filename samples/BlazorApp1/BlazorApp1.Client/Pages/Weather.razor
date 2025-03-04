@@ -31,24 +31,12 @@ else
                     <td>@forecast.TemperatureF</td>
                     <td>@forecast.Summary</td>
                     <td>
-
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Hour</th>
-                                    <th>Chance</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var precipitation in @forecast.PrecipitationByHour!)
-                                {
-                                    <tr>
-                                        <td>@precipitation.Hour</td>
-                                        <td>@precipitation.Chance</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                        <select style="width:100px; border:none;">
+                            @foreach (var precipitation in @forecast.PrecipitationByHour!)
+                            {
+                                <option disabled>@($"@{precipitation.Hour:00}h {(double)precipitation.Chance/100d:0%}") </option>
+                            }
+                        </select>
                     </td>
                 </tr>
             }
@@ -62,7 +50,7 @@ else
 
     private List<WeatherForecast>? forecasts;
 
-    protected override async Task  OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         forecasts = await blazorApp1Context.WeatherForecast
                         .Where(wf => wf.TemperatureC > -999)

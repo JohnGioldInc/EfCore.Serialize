@@ -48,12 +48,12 @@ using (var scope = app.Services.CreateScope())
 
     var startDate = DateOnly.FromDateTime(DateTime.Now);
     var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-    context.AddRange(Enumerable.Range(1, 5).Select(index => new WeatherForecast
+    context.AddRange(Enumerable.Range(1, 14).Select(index => new WeatherForecast
     {
         Date = startDate.AddDays(index),
         TemperatureC = Random.Shared.Next(-20, 55),
         Summary = summaries[Random.Shared.Next(summaries.Length)],
-        PrecipitationByHour = Enumerable.Range(0, 23).Select(hour => new PrecipitationByHour
+        PrecipitationByHour = Enumerable.Range(0, 24).Select(hour => new PrecipitationByHour
          {
              Date = startDate.AddDays(index),
              Hour = hour,
