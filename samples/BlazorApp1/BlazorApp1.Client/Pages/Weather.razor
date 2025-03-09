@@ -56,6 +56,7 @@ else
                         .Where(wf => wf.TemperatureC > -999)
                         .Include(wf => wf.PrecipitationByHour)
                         .OrderByDescending(wf => wf.Date)
+                        .Page(5)
                         .ToListAsync();
     }
 }

@@ -3,11 +3,10 @@
 
 using System.Collections;
 using System.Linq.Expressions;
-using Serialize.Linq.Serializers;
-using JohnGoldInc.EntityFrameworkCore.Serialize.Serializers;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Update;
+using Serialize.EfCore.Serializers;
 
 namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
 {
@@ -18,7 +17,7 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
     {
         private readonly Func<string, CancellationToken, Task<string>> dataProvider;
         private readonly Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync;
-        private readonly EfCoreExpressionSerializer serializer;
+        private readonly ExpressionSerializer serializer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializeDatabase"/> class.
@@ -28,7 +27,7 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
             this.dataProvider = dataProvider;
             this.saveChangesAsync = saveChangesAsync;
             var jsonSerializer = new JsonSerializer();
-            serializer = new EfCoreExpressionSerializer(jsonSerializer);
+            serializer = new ExpressionSerializer(jsonSerializer);
         }
 
         /// <summary>

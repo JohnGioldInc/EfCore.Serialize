@@ -2,20 +2,19 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Linq.Expressions;
-using JohnGoldInc.EntityFrameworkCore.Serialize;
-using JohnGoldInc.EntityFrameworkCore.Serialize.Serializers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Microsoft.EntityFrameworkCore.Update;
-using Serialize.Linq.Interfaces;
-using Serialize.Linq.Serializers;
+using Serialize.EfCore;
+using Serialize.EfCore.Interfaces;
+using Serialize.EfCore.Serializers;
 
 /// <summary>
 /// Extension methods for SerializeDbContext
 /// </summary>
 public static class SerializeDbContextExtension
 {
-    private static readonly EfCoreExpressionSerializer serializer = new EfCoreExpressionSerializer(new JsonSerializer());
+    private static readonly ExpressionSerializer serializer = new ExpressionSerializer(new JsonSerializer());
 
     /// <summary>
     /// Save changes async From Serialize Changes
@@ -52,7 +51,8 @@ public static class SerializeDbContextExtension
     public static IEnumerable<object> FromSerializedExpression<TDbContext>(this TDbContext dbContext, string serializedExpression)
         where TDbContext : DbContext
     {
-        IExpressionContext context = new SerializeExpressionContext(dbContext);
+        IExpressionContext context = new ExpressionContext();
+        context.DbContext = dbContext!;
 
         var expression = serializer.DeserializeText(serializedExpression, context);
 

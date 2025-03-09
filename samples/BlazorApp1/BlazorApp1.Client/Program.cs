@@ -11,7 +11,6 @@ using BlazorApp1.Data;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Update;
-using Serialize.Linq.Serializers;
 #pragma warning restore SA1200 // Using directives should be placed correctly
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
