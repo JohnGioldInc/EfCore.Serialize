@@ -52,11 +52,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        const int days = 5;
         forecasts = await blazorApp1Context.WeatherForecast
                         .Where(wf => wf.TemperatureC > -999)
                         .Include(wf => wf.PrecipitationByHour)
                         .OrderByDescending(wf => wf.Date)
-                        .Page(5)
+                        .Take(days) //need constant or variable not a number
                         .ToListAsync();
     }
 }
