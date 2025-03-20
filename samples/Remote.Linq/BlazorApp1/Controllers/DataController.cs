@@ -8,7 +8,7 @@ namespace BlazorApp1.Controllers
     using BlazorApp1.Data;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore.Update;
-    using Remote.Linq.EntityFrameworkCore;
+    using Remote.Linq;
     using Remote.Linq.Text.Json;
 
     /// <summary>
@@ -41,9 +41,11 @@ namespace BlazorApp1.Controllers
         /// <returns>Data.</returns>
         [HttpPost("query")]
         public ActionResult<IEnumerable<object>> Query([FromBody] string serializedExpression)
-            => this.Ok(
-               JsonSerializer.Deserialize<Remote.Linq.Expressions.Expression>(serializedExpression, this.jsonSerializerOptions)
-                !.ExecuteWithEntityFrameworkCore(this.blazorApp1Context));
+        => this.Ok(
+            this.blazorApp1Context.FromSerializedExpression(
+                (serializedExpression) => JsonSerializer.Deserialize<Remote.Linq.Expressions.Expression>(serializedExpression, this.jsonSerializerOptions)
+                !.ToLinqExpression() !,
+                serializedExpression) !);
 
         /// <summary>
         /// Save Data.

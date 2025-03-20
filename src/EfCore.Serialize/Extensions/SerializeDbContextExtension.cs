@@ -4,6 +4,7 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Update;
 
 /// <summary>
@@ -50,6 +51,8 @@ public static class SerializeDbContextExtension
     {
         var expression = deserializer(serializedExpression);
 
+        expression = new ReplaceWithEntityQueryRootExpressionVisitor(dbContext).Visit(expression);
+
         var genericArgumentType = expression.Type.GetGenericArguments().FirstOrDefault();
 
         var queryableType = typeof(IQueryable<>).MakeGenericType(genericArgumentType!);
@@ -65,6 +68,27 @@ public static class SerializeDbContextExtension
         var result = (query as IEnumerable<object>)?.ToList();
 
         return result!;
+    }
+
+
+
+    private class ReplaceWithEntityQueryRootExpressionVisitor : ExpressionVisitor
+    {
+        private readonly DbContext dbContext;
+
+        public ReplaceWithEntityQueryRootExpressionVisitor(DbContext dbContext)
+            => this.dbContext = dbContext;
+
+        public Expression Rewrite(Expression expression)
+            => Visit(expression);
+
+        protected override Expression VisitParameter(ParameterExpression parameterExpression)
+            => parameterExpression.Name == "queryable"
+            && parameterExpression.Type.IsGenericType 
+            && parameterExpression.Type.GetGenericTypeDefinition() == typeof(IQueryable<>)
+                ? new EntityQueryRootExpression(dbContext.Model.GetEntityTypes().First(et => et.ClrType == parameterExpression.Type.GetGenericArguments().First()))
+                : base.VisitParameter(parameterExpression);
+
     }
 }
 

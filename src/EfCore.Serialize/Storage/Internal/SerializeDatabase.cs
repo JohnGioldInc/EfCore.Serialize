@@ -68,8 +68,6 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
             return lambda;
         }
 
-    
-
         private class ReplaceEntityQueryRootExpressionVisitor : ExpressionVisitor
         {
             public static readonly ReplaceEntityQueryRootExpressionVisitor Instance = _Instance ??= new ReplaceEntityQueryRootExpressionVisitor();
@@ -85,7 +83,7 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
             /// <inheritdoc />
             protected override Expression VisitExtension(Expression extensionExpression)
                 => extensionExpression is EntityQueryRootExpression entityQueryRootExpression
-                    ? Expression.Parameter(typeof(IQueryable<>).MakeGenericType(entityQueryRootExpression.EntityType.ClrType))
+                    ? Expression.Parameter(typeof(IQueryable<>).MakeGenericType(entityQueryRootExpression.EntityType.ClrType), "queryable")
                     : base.VisitExtension(extensionExpression);
         }
 

@@ -1,26 +1,16 @@
 Current issue on Decompile
 
 
-System.InvalidOperationException: variable '' of type 'System.Linq.IQueryable`1[BlazorApp1.Data.WeatherForecast]' referenced from scope '', but it is not defined
-   at System.Linq.Expressions.Compiler.VariableBinder.Reference(ParameterExpression node, VariableStorageKind storage)
-   at System.Linq.Expressions.Compiler.VariableBinder.VisitParameter(ParameterExpression node)
-   at System.Dynamic.Utils.ExpressionVisitorUtils.VisitArguments(ExpressionVisitor visitor, IArgumentProvider nodes)
-   at System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(MethodCallExpression node)
-   at System.Dynamic.Utils.ExpressionVisitorUtils.VisitArguments(ExpressionVisitor visitor, IArgumentProvider nodes)
-   at System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(MethodCallExpression node)
-   at System.Dynamic.Utils.ExpressionVisitorUtils.VisitArguments(ExpressionVisitor visitor, IArgumentProvider nodes)
-   at System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(MethodCallExpression node)
-   at System.Dynamic.Utils.ExpressionVisitorUtils.VisitArguments(ExpressionVisitor visitor, IArgumentProvider nodes)
-   at System.Linq.Expressions.ExpressionVisitor.VisitMethodCall(MethodCallExpression node)
-   at System.Linq.Expressions.ExpressionVisitor.Visit(ReadOnlyCollection`1 nodes)
-   at System.Linq.Expressions.Compiler.VariableBinder.VisitLambda[T](Expression`1 node)
-   at System.Linq.Expressions.Compiler.VariableBinder.Bind(LambdaExpression lambda)
-   at System.Linq.Expressions.Compiler.LambdaCompiler.Compile(LambdaExpression lambda)
-   at Remote.Linq.ExpressionExecution.ExpressionExecutionHelper.CompileAndInvokeExpression(Expression expression)
-   at Remote.Linq.ExpressionExecution.ExpressionExecutor`2.ExecuteCore(Expression expression)
-   at Remote.Linq.ExpressionExecution.ExpressionExecutor`2.Execute(Expression expression)
-   at Remote.Linq.ExpressionExecution.ExpressionExecutor`2.Execute(Expression expression)
-   at Remote.Linq.EntityFrameworkCore.ExpressionExtensions.ExecuteWithEntityFrameworkCore(Expression expression, DbContext dbContext, IExpressionFromRemoteLinqContext context, Func`2 setTypeInformation)
+System.Collections.Generic.KeyNotFoundException: The given key '__p_0' was not present in the dictionary.
+   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at lambda_method102(Closure, QueryContext)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken) in C:\github\EfCore.Serialize\src\EFCore\Query\Internal\QueryCompiler.cs:line 87
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.Execute[TResult](Expression query) in C:\github\EfCore.Serialize\src\EFCore\Query\Internal\QueryCompiler.cs:line 60
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.Execute[TResult](Expression expression) in C:\github\EfCore.Serialize\src\EFCore\Query\Internal\EntityQueryProvider.cs:line 62
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetEnumerator() in C:\github\EfCore.Serialize\src\EFCore\Query\Internal\EntityQueryable`.cs:line 78
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at SerializeDbContextExtension.FromSerializedExpression[TDbContext](TDbContext dbContext, Func`2 deserializer, String serializedExpression) in C:\github\EfCore.Serialize\src\EfCore.Serialize\Extensions\SerializeDbContextExtension.cs:line 68
    at BlazorApp1.Controllers.DataController.Query(String serializedExpression) in C:\github\EfCore.Serialize\samples\Remote.Linq\BlazorApp1\Controllers\DataController.cs:line 44
    at lambda_method97(Closure, Object, Object[])
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
