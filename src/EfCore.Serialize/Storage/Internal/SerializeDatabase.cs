@@ -85,6 +85,10 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
                 => extensionExpression is EntityQueryRootExpression entityQueryRootExpression
                     ? Expression.Parameter(typeof(IQueryable<>).MakeGenericType(entityQueryRootExpression.EntityType.ClrType), "queryable")
                     : base.VisitExtension(extensionExpression);
+
+            /// <inheritdoc />
+            protected override Expression VisitParameter(ParameterExpression parameterExpression)
+                => base.VisitParameter(parameterExpression);
         }
 
         /// <summary>

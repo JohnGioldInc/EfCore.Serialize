@@ -70,8 +70,6 @@ public static class SerializeDbContextExtension
         return result!;
     }
 
-
-
     private class ReplaceWithEntityQueryRootExpressionVisitor : ExpressionVisitor
     {
         private readonly DbContext dbContext;

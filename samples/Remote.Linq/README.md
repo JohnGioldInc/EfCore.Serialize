@@ -1,4 +1,4 @@
-Current issue on Decompile
+Current issue with Take and Skip functions
 
 
 System.Collections.Generic.KeyNotFoundException: The given key '__p_0' was not present in the dictionary.
