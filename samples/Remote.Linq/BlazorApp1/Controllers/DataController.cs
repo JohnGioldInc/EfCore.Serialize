@@ -4,9 +4,12 @@
 namespace BlazorApp1.Controllers
 {
     using System.Collections.Generic;
+    using System.Text.Json;
     using BlazorApp1.Data;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore.Update;
+    using Remote.Linq.EntityFrameworkCore;
+    using Remote.Linq.Text.Json;
 
     /// <summary>
     /// DataController.
@@ -16,6 +19,7 @@ namespace BlazorApp1.Controllers
     public class DataController : ControllerBase
     {
         private readonly BlazorApp1Context blazorApp1Context;
+        private readonly JsonSerializerOptions jsonSerializerOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DataController"/> class.
@@ -24,6 +28,10 @@ namespace BlazorApp1.Controllers
         public DataController(BlazorApp1Context blazorApp1Context)
         {
             this.blazorApp1Context = blazorApp1Context;
+            this.jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            }.ConfigureRemoteLinq();
         }
 
         /// <summary>
@@ -33,7 +41,9 @@ namespace BlazorApp1.Controllers
         /// <returns>Data.</returns>
         [HttpPost("query")]
         public ActionResult<IEnumerable<object>> Query([FromBody] string serializedExpression)
-            => this.Ok(this.blazorApp1Context.FromSerializedExpression(serializedExpression));
+            => this.Ok(
+               JsonSerializer.Deserialize<Remote.Linq.Expressions.Expression>(serializedExpression, this.jsonSerializerOptions)
+                !.ExecuteWithEntityFrameworkCore(this.blazorApp1Context));
 
         /// <summary>
         /// Save Data.

@@ -3,6 +3,7 @@
 
 
 // ReSharper disable once CheckNamespace
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Update;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,18 +36,20 @@ public static class SerializeDbContextOptionsExtensions
     /// </param>
     /// <param name="dataProvider">Your Implementation of getting data over the wire</param>
     /// <param name="saveChangesAsync">Your Implementation for saving over the wire</param>
+    /// <param name="serializer"> Serialization Function </param>
     /// <param name="SerializeOptionsAction">An optional action to allow additional Serialize specific configuration.</param>
     /// <returns>The options builder so that further configuration can be chained.</returns>
     public static DbContextOptionsBuilder UseSerializeDatabase(
     this DbContextOptionsBuilder optionsBuilder,
     Func<string, CancellationToken, Task<string>> dataProvider,
     Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync,
+    Func<Expression, string> serializer,
     string? databaseName = null,
     InMemoryDatabaseRoot? databaseRoot = null,
     Action<DbContextOptionsBuilder>? SerializeOptionsAction = null)
     {
         optionsBuilder.UseInMemoryDatabase(databaseName ?? Guid.NewGuid().ToString(), databaseRoot);
-        var sc = new ServiceCollection().AddEntityFrameworkSerializeDatabase(dataProvider, saveChangesAsync);
+        var sc = new ServiceCollection().AddEntityFrameworkSerializeDatabase(dataProvider, saveChangesAsync, serializer);
         var sp = sc.BuildServiceProvider(validateScopes: true);
         optionsBuilder.UseInternalServiceProvider(sp);
 

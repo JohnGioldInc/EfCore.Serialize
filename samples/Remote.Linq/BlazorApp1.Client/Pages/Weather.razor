@@ -1,0 +1,62 @@
+﻿@page "/weather"
+
+<PageTitle>Weather</PageTitle>
+
+<h1>Weather</h1>
+
+<p>This component demonstrates showing data.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th aria-label="Temperature in Celsius">Temp. (C)</th>
+                <th aria-label="Temperature in Farenheit">Temp. (F)</th>
+                <th>Summary</th>
+                <th>Precipitation By Hour</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                    <td>
+                        <select style="width:100px; border:none;">
+                            @foreach (var precipitation in @forecast.PrecipitationByHour!)
+                            {
+                                <option disabled>@($"@{precipitation.Hour:00}h {(double)precipitation.Chance/100d:0%}") </option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Inject]
+    required public BlazorApp1Context blazorApp1Context { get; set; }
+
+    private List<WeatherForecast>? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await blazorApp1Context.WeatherForecast
+                        .Where(wf => wf.TemperatureC > -999)
+                        .Include(wf => wf.PrecipitationByHour)
+                        .OrderByDescending(wf => wf.Date)
+                        .Take(5)
+                        .ToListAsync();
+    }
+}

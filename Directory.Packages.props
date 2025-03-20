@@ -13,6 +13,9 @@
   <ItemGroup>
     <!-- core dependencies-->
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.2" />
+    <PackageVersion Include="Remote.Linq" Version="7.2.2" />
+    <PackageVersion Include="Remote.Linq.EntityFrameworkCore" Version="7.2.2" />
+    <PackageVersion Include="Remote.Linq.Text.Json" Version="7.2.2" />
     <PackageVersion Include="Serialize.EfCore" Version="1.0.1" />
     <PackageVersion Include="Serialize.Linq" Version="4.0.167" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.3.1" />

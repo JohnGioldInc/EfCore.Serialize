@@ -16,7 +16,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
     <PackageReference Include="Newtonsoft.Json" />
-    <PackageReference Include="Serialize.EfCore" />
   </ItemGroup>
 
 </Project>

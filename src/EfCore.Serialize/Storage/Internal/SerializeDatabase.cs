@@ -6,7 +6,6 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Update;
-using Serialize.EfCore.Serializers;
 
 namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
 {
@@ -17,17 +16,16 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
     {
         private readonly Func<string, CancellationToken, Task<string>> dataProvider;
         private readonly Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync;
-        private readonly ExpressionSerializer serializer;
+        private readonly Func<Expression, string> serializer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializeDatabase"/> class.
         /// </summary>
-        public SerializeDatabase(Func<string, CancellationToken, Task<string>> dataProvider, Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync)
+        public SerializeDatabase(Func<string, CancellationToken, Task<string>> dataProvider, Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync, Func<Expression,string> serializer)
         {
             this.dataProvider = dataProvider;
             this.saveChangesAsync = saveChangesAsync;
-            var jsonSerializer = new JsonSerializer();
-            serializer = new ExpressionSerializer(jsonSerializer);
+            this.serializer = serializer;
         }
 
         /// <summary>
@@ -50,7 +48,9 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
         /// <returns>An expression that represents the compiled query.</returns>
         public Expression<Func<QueryContext, TResult>> CompileQueryExpression<TResult>(Expression query, bool async, IReadOnlySet<string>? nonNullableReferenceTypeParameters = default)
         {
-            var serialized = serializer.SerializeText(query);
+            query = ReplaceEntityQueryRootExpressionVisitor.Instance.Visit(query);
+
+            var serialized = serializer(query);
             var genericType = typeof(TResult).GetGenericArguments()?.FirstOrDefault()?.GetGenericArguments()?.FirstOrDefault()
                 ?? typeof(TResult).GetGenericArguments()?.FirstOrDefault()
                 ?? typeof(TResult);
@@ -66,6 +66,27 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
 
             var lambda = Expression.Lambda<Func<QueryContext, TResult>>(newQueryingEnumerable, queryContextParameter);
             return lambda;
+        }
+
+    
+
+        private class ReplaceEntityQueryRootExpressionVisitor : ExpressionVisitor
+        {
+            public static readonly ReplaceEntityQueryRootExpressionVisitor Instance = _Instance ??= new ReplaceEntityQueryRootExpressionVisitor();
+            private static ReplaceEntityQueryRootExpressionVisitor _Instance;
+
+            /// <summary>
+            ///     Rewrites <see cref="EntityQueryRootExpression" /> encountered in an expression to use a different entity type.
+            /// </summary>
+            /// <param name="expression">The query expression to rewrite.</param>
+            public Expression Rewrite(Expression expression)
+                => Visit(expression);
+
+            /// <inheritdoc />
+            protected override Expression VisitExtension(Expression extensionExpression)
+                => extensionExpression is EntityQueryRootExpression entityQueryRootExpression
+                    ? Expression.Parameter(typeof(IQueryable<>).MakeGenericType(entityQueryRootExpression.EntityType.ClrType))
+                    : base.VisitExtension(extensionExpression);
         }
 
         /// <summary>

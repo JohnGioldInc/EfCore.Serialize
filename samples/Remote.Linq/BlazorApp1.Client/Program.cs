@@ -11,6 +11,9 @@ using BlazorApp1.Data;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Update;
+using Remote.Linq.DynamicQuery;
+using Remote.Linq.Text.Json;
+
 #pragma warning restore SA1200 // Using directives should be placed correctly
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -18,7 +21,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 var jsonSerializerOptions = new JsonSerializerOptions
 {
     PropertyNameCaseInsensitive = true,
-};
+}.ConfigureRemoteLinq();
 
 var httpClient = new HttpClient();
 
@@ -58,7 +61,12 @@ Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> changeSaveProvider
     return result ?? throw new Exception("Received empty value from server");
 };
 
+var expressionTranslator = new ExpressionTranslator();
+
 builder.Services
-    .AddDbContext<BlazorApp1Context>(options => options.UseSerializeDatabase(dataProvider, changeSaveProvider));
+    .AddDbContext<BlazorApp1Context>(options => options.UseSerializeDatabase(
+        dataProvider,
+        changeSaveProvider,
+        (expression) => JsonSerializer.Serialize(expressionTranslator.TranslateExpression(expression), jsonSerializerOptions) !));
 
 await builder.Build().RunAsync();

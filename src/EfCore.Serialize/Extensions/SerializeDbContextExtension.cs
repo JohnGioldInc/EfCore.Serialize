@@ -5,16 +5,12 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Microsoft.EntityFrameworkCore.Update;
-using Serialize.EfCore;
-using Serialize.EfCore.Interfaces;
-using Serialize.EfCore.Serializers;
 
 /// <summary>
 /// Extension methods for SerializeDbContext
 /// </summary>
 public static class SerializeDbContextExtension
 {
-    private static readonly ExpressionSerializer serializer = new ExpressionSerializer(new JsonSerializer());
 
     /// <summary>
     /// Save changes async From Serialize Changes
@@ -46,15 +42,13 @@ public static class SerializeDbContextExtension
     /// </summary>
     /// <typeparam name="TDbContext">The DbContext to query upon</typeparam>
     /// <param name="dbContext">The database context to query upon.</param>
+    /// <param name="deserializer">Deserialization Function</param>
     /// <param name="serializedExpression">The serialized expression to be deserialized and executed.</param>
     /// <returns>query results of serialized expression</returns>
-    public static IEnumerable<object> FromSerializedExpression<TDbContext>(this TDbContext dbContext, string serializedExpression)
+    public static IEnumerable<object> FromSerializedExpression<TDbContext>(this TDbContext dbContext, Func<string,Expression> deserializer, string serializedExpression)
         where TDbContext : DbContext
     {
-        IExpressionContext context = new ExpressionContext();
-        context.DbContext = dbContext!;
-
-        var expression = serializer.DeserializeText(serializedExpression, context);
+        var expression = deserializer(serializedExpression);
 
         var genericArgumentType = expression.Type.GetGenericArguments().FirstOrDefault();
 
