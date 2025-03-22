@@ -32,7 +32,7 @@ else
                     <td>@forecast.Summary</td>
                     <td>
                         <select style="width:100px; border:none;">
-                            @foreach (var precipitation in @forecast.PrecipitationByHour!)
+                            @foreach (var precipitation in @forecast.PrecipitationByHour ?? new List<PrecipitationByHour>())
                             {
                                 <option disabled>@($"@{precipitation.Hour:00}h {(double)precipitation.Chance/100d:0%}") </option>
                             }

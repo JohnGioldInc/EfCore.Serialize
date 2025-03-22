@@ -32,7 +32,7 @@ else
                     <td>@forecast.Summary</td>
                     <td>
                         <select style="width:100px; border:none;">
-                            @foreach (var precipitation in @forecast.PrecipitationByHour!)
+                            @foreach (var precipitation in @forecast.PrecipitationByHour ?? new List<PrecipitationByHour>() )
                             {
                                 <option disabled>@($"@{precipitation.Hour:00}h {(double)precipitation.Chance/100d:0%}") </option>
                             }
@@ -52,12 +52,11 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        const int days = 5;
         forecasts = await blazorApp1Context.WeatherForecast
-                        .Where(wf => wf.TemperatureC > -999)
-                        .Include(wf => wf.PrecipitationByHour)
-                        .OrderByDescending(wf => wf.Date)
-                        .Take(days) //need constant or variable not a number
+                       .Where(wf => wf.TemperatureC > -999)
+                       .Include(wf => wf.PrecipitationByHour)
+                       .OrderByDescending(wf => wf.Date)
+                        .Take(5) 
                         .ToListAsync();
     }
 }
