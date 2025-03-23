@@ -56,8 +56,8 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Query.Internal
 
             var result = typeof(QueryingEnumerable<>)
                 .MakeGenericType(typeof(TResult).GetGenericArguments().First())
-                .GetConstructor(new[] { typeof(Task<string>), typeof(Expression), typeof(IQueryProvider) })
-                ?.Invoke(new object[] { data, expression, this })!;
+                .GetConstructor(new[] { typeof(Task<string>)})
+                ?.Invoke(new object[] { data})!;
 
             return (TResult)result;
         }
@@ -76,17 +76,17 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Query.Internal
                     : base.VisitExtension(extensionExpression);
         }
 
-        private class QueryingEnumerable<T>(Task<string> data, Expression expression, IQueryProvider provider)
-            : IAsyncEnumerable<T>, IEnumerable<T>, IQueryable<T>
+        private class QueryingEnumerable<T>(Task<string> data)
+            : IAsyncEnumerable<T>, IEnumerable<T>, IQueryable<T>, IQueryable, IOrderedQueryable<T>, IOrderedQueryable
              where T : class
         {
             private QueryingEnumerator<T>? enumerator;
 
             public Type ElementType => typeof(T);
 
-            public Expression Expression => expression;
+            public Expression Expression => Expression.Parameter(typeof(IQueryable<T>));
 
-            public IQueryProvider Provider => provider;
+            public IQueryProvider Provider => new CloneQueryProvider(this);
 
             public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
                 => enumerator ?? (enumerator = new QueryingEnumerator<T>(data, cancellationToken));
@@ -139,6 +139,15 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Query.Internal
                 }
 
                 public void Reset() => throw new NotImplementedException();
+            }
+            private class CloneQueryProvider(IQueryable<T> queriable) : IQueryProvider
+            {
+                public IQueryable CreateQuery(Expression expression)
+                    => queriable;
+                IQueryable<TElement> IQueryProvider.CreateQuery<TElement>(Expression expression)
+                    => (IQueryable<TElement>)queriable;
+                public object? Execute(Expression expression) => CreateQuery(expression);
+                public TResult Execute<TResult>(Expression expression) => (TResult)CreateQuery(expression);
             }
         }
     }
