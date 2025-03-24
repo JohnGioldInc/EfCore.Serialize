@@ -3,9 +3,7 @@
 
 using System.ComponentModel;
 using System.Linq.Expressions;
-using JohnGoldInc.EntityFrameworkCore.Serialize.Query.Internal;
 using JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal;
-using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Update;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -40,9 +38,7 @@ public static class SerializeServiceCollectionExtensions
     {
         serviceCollection.AddEntityFrameworkInMemoryDatabase();
         serviceCollection.RemoveAll<IDatabase>();
-        serviceCollection.TryAddScoped<IDatabase>((sp) => new SerializeDatabase(saveChangesAsync));
-        serviceCollection.RemoveAll<IAsyncQueryProvider>();
-        serviceCollection.TryAddScoped<IAsyncQueryProvider>((sp) => new SerializeQueryProvider(dataProvider, serializer));
+        serviceCollection.TryAddScoped<IDatabase>((sp) => new SerializeDatabase(dataProvider, saveChangesAsync, serializer, sp.GetRequiredService<DatabaseDependencies>()));
 
         return serviceCollection;
     }

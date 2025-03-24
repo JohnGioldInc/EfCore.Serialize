@@ -53,10 +53,10 @@ else
     protected override async Task OnInitializedAsync()
     {
         forecasts = await blazorApp1Context.WeatherForecast
-                       .Where(wf => wf.TemperatureC > -999)
-                       .Include(wf => wf.PrecipitationByHour)
-                       .OrderByDescending(wf => wf.Date)
-                        .Take(5) 
-                        .ToListAsync();
+            .Where(wf => wf.TemperatureC > -999)
+            .Include(wf => wf.PrecipitationByHour)
+            .OrderBy(wf => wf.Date)
+            .Take(5) 
+            .ToListAsync();
     }
 }
