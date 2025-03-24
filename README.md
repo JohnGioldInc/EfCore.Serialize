@@ -10,6 +10,8 @@ Without them this would not be possible.
 
 [Code Samples](https://github.com/JohnGoldInc/EfCore.Client/tree/efcore.client-main/samples)
 
+[EfCore.Client Project](https://github.com/JohnGoldInc/EfCore.Client/tree/efcore.client-main/src/EfCore.Client)
+
 ## Blazor Page Usage
 
 To not run affoul of the dreaded 'Cannot wait on monitors on this runtime'
