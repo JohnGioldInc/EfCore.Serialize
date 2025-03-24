@@ -14,7 +14,7 @@ Without them this would not be possible.
 
 ## Blazor Page Usage
 
-To not run affoul of the dreaded 'Cannot wait on monitors on this runtime'
+To not run afoul of the dreaded 'Cannot wait on monitors on this runtime'
 
 Please use **ToListAsync** and **SaveChangesAsync**
 
