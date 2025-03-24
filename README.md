@@ -6,7 +6,7 @@ A Specialized Alternative to OData, GraphQL, and other REST database integration
 
 A choice of Serializers, You can use either Remote.Linq or Serialize.Linq.
 
-[Code Samples](https://github.com/JohnGioldInc/EFCore.Client/tree/EFCore.Client-main/samples)
+[Code Samples](https://github.com/JohnGoldInc/EfCore.Client/tree/efcore.client-main/samples)
 
 ## Remote.Linq Client Usage
 ```cs
