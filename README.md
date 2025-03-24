@@ -4,7 +4,9 @@ Client library for serializing and deserializing Entity Framework Core queries a
 
 A Specialized Alternative to OData, GraphQL, and other REST database integrations intended for .NET Stack and Blazor.
 
-A choice of Serializers, You can use either Remote.Linq or Serialize.Linq.
+A choice of Serializers, You can use either [Remote.Linq](https://github.com/6bee/Remote.Linq) or [Serialize.Linq](https://github.com/esskar/Serialize.Linq)
+
+Without them this would not be possible.
 
 [Code Samples](https://github.com/JohnGoldInc/EfCore.Client/tree/efcore.client-main/samples)
 
