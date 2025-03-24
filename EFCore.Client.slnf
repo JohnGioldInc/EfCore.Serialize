@@ -9,12 +9,12 @@
       "src\\EFCore.Analyzers\\EFCore.Analyzers.csproj",
       "src\\EFCore.Proxies\\EFCore.Proxies.csproj",
       "src\\EFCore\\EFCore.csproj",
-      "src\\EfCore.Serialize\\EfCore.Serialize.csproj",
+      "src\\EFCore.Client\\EFCore.Client.csproj",
       "test\\EFCore.Analyzers.Tests\\EFCore.Analyzers.Tests.csproj",
       "test\\EFCore.InMemory.FunctionalTests\\EFCore.InMemory.FunctionalTests.csproj",
       "test\\EFCore.InMemory.Tests\\EFCore.InMemory.Tests.csproj",
-      "test\\EFCore.Serialize.FunctionalTests\\EFCore.Serialize.FunctionalTests.csproj",
-      "test\\EFCore.Serialize.Tests\\EFCore.Serialize.Tests.csproj",
+      "test\\EFCore.Client.FunctionalTests\\EFCore.Client.FunctionalTests.csproj",
+      "test\\EFCore.Client.Tests\\EFCore.Client.Tests.csproj",
       "test\\EFCore.Specification.Tests\\EFCore.Specification.Tests.csproj",
       "test\\EFCore.Tests\\EFCore.Tests.csproj"
     ]

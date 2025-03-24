@@ -64,7 +64,7 @@ Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> changeSaveProvider
 var expressionTranslator = new ExpressionTranslator();
 
 builder.Services
-    .AddDbContext<BlazorApp1Context>(options => options.UseSerializeDatabase(
+    .AddDbContext<BlazorApp1Context>(options => options.UseClientDatabase(
         dataProvider,
         changeSaveProvider,
         (expression) => JsonSerializer.Serialize(expressionTranslator.TranslateExpression(expression), jsonSerializerOptions) !));

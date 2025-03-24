@@ -63,7 +63,7 @@ Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> changeSaveProvider
 var serializer = new ExpressionSerializer(new Serialize.Linq.Serializers.JsonSerializer());
 
 builder.Services
-    .AddDbContext<BlazorApp1Context>(options => options.UseSerializeDatabase(
+    .AddDbContext<BlazorApp1Context>(options => options.UseClientDatabase(
         dataProvider,
         changeSaveProvider,
         (expression) => serializer.SerializeText(expression) !));

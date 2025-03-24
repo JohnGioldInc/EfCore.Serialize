@@ -3,7 +3,7 @@
 
 using System.ComponentModel;
 using System.Linq.Expressions;
-using JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal;
+using JohnGoldInc.EntityFrameworkCore.Client.Storage.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Update;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 /// <summary>
 ///     Serialize specific extension methods for <see cref="IServiceCollection" />.
 /// </summary>
-public static class SerializeServiceCollectionExtensions
+public static class ClientServiceCollectionExtensions
 {
     /// <summary>
     ///     Adds the services required by the Serialize database provider for Entity Framework
@@ -34,11 +34,11 @@ public static class SerializeServiceCollectionExtensions
     ///     The same service collection so that multiple calls can be chained.
     /// </returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static IServiceCollection AddEntityFrameworkSerializeDatabase(this IServiceCollection serviceCollection, Func<string, CancellationToken, Task<string>> dataProvider, Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync, Func<Expression, string> serializer)
+    public static IServiceCollection AddEntityFrameworkClientDatabase(this IServiceCollection serviceCollection, Func<string, CancellationToken, Task<string>> dataProvider, Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync, Func<Expression, string> serializer)
     {
         serviceCollection.AddEntityFrameworkInMemoryDatabase();
         serviceCollection.RemoveAll<IDatabase>();
-        serviceCollection.TryAddScoped<IDatabase>((sp) => new SerializeDatabase(dataProvider, saveChangesAsync, serializer, sp.GetRequiredService<DatabaseDependencies>()));
+        serviceCollection.TryAddScoped<IDatabase>((sp) => new ClientDatabase(dataProvider, saveChangesAsync, serializer, sp.GetRequiredService<DatabaseDependencies>()));
 
         return serviceCollection;
     }

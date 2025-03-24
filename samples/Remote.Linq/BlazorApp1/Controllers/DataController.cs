@@ -42,7 +42,7 @@ namespace BlazorApp1.Controllers
         [HttpPost("query")]
         public ActionResult<IEnumerable<object>> Query([FromBody] string serializedExpression)
         => this.Ok(
-            this.blazorApp1Context.FromSerializedExpression(
+            this.blazorApp1Context.FromClientExpression(
                 (serializedExpression) => JsonSerializer.Deserialize<Remote.Linq.Expressions.Expression>(serializedExpression, this.jsonSerializerOptions)
                 !.ToLinqExpression() !,
                 serializedExpression) !);

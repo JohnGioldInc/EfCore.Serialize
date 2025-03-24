@@ -4,8 +4,8 @@
     <Description>Remote database provider for Entity Framework Core.</Description>
     <TargetFramework>$(DefaultNetCoreTargetFramework)</TargetFramework>
     <MinClientVersion>3.6</MinClientVersion>
-    <AssemblyName>JohnGoldInc.EntityFrameworkCore.Serialize</AssemblyName>
-    <RootNamespace>JohnGoldInc.EntityFrameworkCore.Serialize</RootNamespace>
+    <AssemblyName>JohnGoldInc.EntityFrameworkCore.Client</AssemblyName>
+    <RootNamespace>JohnGoldInc.EntityFrameworkCore.Client</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>$(PackageTags);Serialize</PackageTags>
     <ImplicitUsings>true</ImplicitUsings>

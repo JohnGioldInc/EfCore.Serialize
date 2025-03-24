@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Update;
 
-namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
+namespace JohnGoldInc.EntityFrameworkCore.Client.Storage.Internal
 {
     /// <summary>
     /// Represents a database that supports serialization.
     /// </summary>
-    public class SerializeDatabase : Database, IDatabase
+    public class ClientDatabase : Database, IDatabase
     {
         private readonly Func<string, CancellationToken, Task<string>> dataProvider;
         private readonly Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync;
@@ -21,9 +21,9 @@ namespace JohnGoldInc.EntityFrameworkCore.Serialize.Storage.Internal
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SerializeDatabase"/> class.
+        /// Initializes a new instance of the <see cref="ClientDatabase"/> class.
         /// </summary>
-        public SerializeDatabase(
+        public ClientDatabase(
             Func<string, CancellationToken, Task<string>> dataProvider,
             Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync,
             Func<Expression, string> serializer,

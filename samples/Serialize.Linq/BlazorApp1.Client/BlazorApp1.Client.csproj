@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\EfCore.Serialize\EfCore.Serialize.csproj" />
+    <ProjectReference Include="..\..\..\src\EFCore.Client\EFCore.Client.csproj" />
     <ProjectReference Include="..\BlazorApp1.Data\BlazorApp1.Data.csproj" />
   </ItemGroup>
 

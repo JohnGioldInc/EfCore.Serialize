@@ -57,7 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\EfCore.Serialize\EfCore.Serialize.csproj" />
+    <ProjectReference Include="..\..\src\EFCore.Client\EFCore.Client.csproj" />
     <ProjectReference Include="..\..\src\EFCore\EFCore.csproj" />
     <ProjectReference Include="..\..\src\EFCore.Abstractions\EFCore.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\EFCore.Design\EFCore.Design.csproj" />

@@ -37,8 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\EfCore.Serialize\EfCore.Serialize.csproj" />
-    <ProjectReference Include="..\EFCore.Serialize.FunctionalTests\EFCore.Serialize.FunctionalTests.csproj" />
+    <ProjectReference Include="..\..\src\EFCore.Client\EFCore.Client.csproj" />
+    <ProjectReference Include="..\EFCore.Client.FunctionalTests\EFCore.Client.FunctionalTests.csproj" />
     <ProjectReference Include="..\EFCore.Tests\EFCore.Tests.csproj" />
   </ItemGroup>
 

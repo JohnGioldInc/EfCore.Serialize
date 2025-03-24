@@ -13,7 +13,7 @@ namespace Microsoft.EntityFrameworkCore;
 /// <summary>
 ///     Serialize specific extension methods for <see cref="DbContextOptionsBuilder" />.
 /// </summary>
-public static class SerializeDbContextOptionsExtensions
+public static class ClientDbContextOptionsExtensions
 {
     /// <summary>
     ///     Configures the context to connect to a named Serialize database.
@@ -39,7 +39,7 @@ public static class SerializeDbContextOptionsExtensions
     /// <param name="serializer"> Serialization Function </param>
     /// <param name="SerializeOptionsAction">An optional action to allow additional Serialize specific configuration.</param>
     /// <returns>The options builder so that further configuration can be chained.</returns>
-    public static DbContextOptionsBuilder UseSerializeDatabase(
+    public static DbContextOptionsBuilder UseClientDatabase(
     this DbContextOptionsBuilder optionsBuilder,
     Func<string, CancellationToken, Task<string>> dataProvider,
     Func<IEnumerable<IUpdateEntry>, CancellationToken, Task<int>> saveChangesAsync,
@@ -49,7 +49,7 @@ public static class SerializeDbContextOptionsExtensions
     Action<DbContextOptionsBuilder>? SerializeOptionsAction = null)
     {
         optionsBuilder.UseInMemoryDatabase(databaseName ?? Guid.NewGuid().ToString(), databaseRoot);
-        var sc = new ServiceCollection().AddEntityFrameworkSerializeDatabase(dataProvider, saveChangesAsync, serializer);
+        var sc = new ServiceCollection().AddEntityFrameworkClientDatabase(dataProvider, saveChangesAsync, serializer);
         var sp = sc.BuildServiceProvider(validateScopes: true);
         optionsBuilder.UseInternalServiceProvider(sp);
 

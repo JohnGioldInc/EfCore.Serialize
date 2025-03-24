@@ -36,7 +36,7 @@ namespace BlazorApp1.Controllers
         /// <returns>Data.</returns>
         [HttpPost("query")]
         public ActionResult<IEnumerable<object>> Query([FromBody] string serializedExpression)
-            => this.Ok(this.blazorApp1Context.FromSerializedExpression(
+            => this.Ok(this.blazorApp1Context.FromClientExpression(
                 (serializedExpression) => this.serializer.DeserializeText(serializedExpression),
                 serializedExpression));
 

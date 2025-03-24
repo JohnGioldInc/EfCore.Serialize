@@ -8,7 +8,7 @@ namespace Microsoft.EntityFrameworkCore;
 /// <summary>
 ///     SerializeToInMemory specific extension methods for <see cref="DbContextOptionsBuilder" />.
 /// </summary>
-public static class SerializeToInMemoryDbContextOptionsExtensions
+public static class ClientToInMemoryDbContextOptionsExtensions
 {
     /// <summary>
     ///     Configures the context to connect to a named SerializeToInMemory database.

@@ -1,4 +1,4 @@
-The Following Tests fail vs EFCore.InMemory And should be ignored for EFCore.Serialize:
+The Following Tests fail vs EFCore.InMemory And should be ignored for EFCore.Client:
 
 Where_Contains_and_comparison
 Byte_array_filter_by_SequenceEqual
