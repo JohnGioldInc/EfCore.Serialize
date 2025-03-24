@@ -8,6 +8,33 @@ A choice of Serializers, You can use either Remote.Linq or Serialize.Linq.
 
 [Code Samples](https://github.com/JohnGoldInc/EfCore.Client/tree/efcore.client-main/samples)
 
+## Blazor Page Usage
+
+To not run affoul of the dreaded 'Cannot wait on monitors on this runtime'
+
+Please use **ToListAsync** and **SaveChangesAsync**
+
+```cs
+
+@code {
+    [Inject]
+    required public BlazorApp1Context blazorApp1Context { get; set; }
+
+    private List<WeatherForecast>? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await blazorApp1Context.WeatherForecast
+            .Where(wf => wf.TemperatureC > -999)
+            .Include(wf => wf.PrecipitationByHour)
+            .OrderBy(wf => wf.Date)
+            .Take(5)
+            .ToListAsync();
+    }
+}
+```
+
+
 ## Remote.Linq Client Usage
 ```cs
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
