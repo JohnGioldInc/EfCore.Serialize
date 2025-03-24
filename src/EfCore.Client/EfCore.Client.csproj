@@ -18,4 +18,11 @@
     <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 
+  <PropertyGroup>
+
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+  </PropertyGroup>
+
+
 </Project>
