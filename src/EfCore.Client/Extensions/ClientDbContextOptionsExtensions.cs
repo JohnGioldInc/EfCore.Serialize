@@ -37,7 +37,7 @@ public static class ClientDbContextOptionsExtensions
     /// <param name="dataProvider">Your Implementation of getting data over the wire</param>
     /// <param name="saveChangesAsync">Your Implementation for saving over the wire</param>
     /// <param name="serializer"> Serialization Function </param>
-    /// <param name="SerializeOptionsAction">An optional action to allow additional Serialize specific configuration.</param>
+    /// <param name="ClientOptionsAction">An optional action to allow additional Serialize specific configuration.</param>
     /// <returns>The options builder so that further configuration can be chained.</returns>
     public static DbContextOptionsBuilder UseClientDatabase(
     this DbContextOptionsBuilder optionsBuilder,
@@ -46,16 +46,16 @@ public static class ClientDbContextOptionsExtensions
     Func<Expression, string> serializer,
     string? databaseName = null,
     InMemoryDatabaseRoot? databaseRoot = null,
-    Action<DbContextOptionsBuilder>? SerializeOptionsAction = null)
+    Action<DbContextOptionsBuilder>? ClientOptionsAction = null)
     {
         optionsBuilder.UseInMemoryDatabase(databaseName ?? Guid.NewGuid().ToString(), databaseRoot);
         var sc = new ServiceCollection().AddEntityFrameworkClientDatabase(dataProvider, saveChangesAsync, serializer);
         var sp = sc.BuildServiceProvider(validateScopes: true);
         optionsBuilder.UseInternalServiceProvider(sp);
 
-        if (SerializeOptionsAction != null)
+        if (ClientOptionsAction != null)
         {
-            SerializeOptionsAction.Invoke(optionsBuilder);
+            ClientOptionsAction.Invoke(optionsBuilder);
         }
         return optionsBuilder;
     }
