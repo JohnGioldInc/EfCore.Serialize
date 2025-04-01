@@ -11,6 +11,7 @@ Without them this would not be possible.
 [Code Samples](https://github.com/JohnGoldInc/EfCore.Client/tree/efcore.client-main/samples)
 
 [EfCore.Client Project](https://github.com/JohnGoldInc/EfCore.Client/tree/efcore.client-main/src/EfCore.Client)
+[EfCore.Client.Tests Unit Test Project](https://github.com/JohnGoldInc/EfCore.Client/tree/efcore.client-main/test/EFCore.Client.Tests)
 
 [Nuget JohnGoldInc.EntityFrameworkCore.Client 9.0.3](https://www.nuget.org/packages/JohnGoldInc.EntityFrameworkCore.Client/9.0.3)
 
