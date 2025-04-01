@@ -167,6 +167,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1.Client", "sample
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfCore.Client", "src\EfCore.Client\EfCore.Client.csproj", "{E755E75A-E5F8-44F5-A2C3-60427BED5C5E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCore.Client.Tests", "test\EFCore.Client.Tests\EFCore.Client.Tests.csproj", "{9FE9701D-605C-4B4E-A3C2-5D04E935AD6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -425,6 +427,10 @@ Global
 		{E755E75A-E5F8-44F5-A2C3-60427BED5C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E755E75A-E5F8-44F5-A2C3-60427BED5C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E755E75A-E5F8-44F5-A2C3-60427BED5C5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FE9701D-605C-4B4E-A3C2-5D04E935AD6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FE9701D-605C-4B4E-A3C2-5D04E935AD6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FE9701D-605C-4B4E-A3C2-5D04E935AD6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FE9701D-605C-4B4E-A3C2-5D04E935AD6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -496,6 +502,7 @@ Global
 		{8A4C3338-9F9D-98D4-0C5C-463882A898EB} = {C42C0A60-07E1-4D36-BDD9-BE287C4730BB}
 		{0811CB32-41CD-731F-2474-5799E82134B3} = {C42C0A60-07E1-4D36-BDD9-BE287C4730BB}
 		{E755E75A-E5F8-44F5-A2C3-60427BED5C5E} = {CE6B50B2-34AE-44C9-940A-4E48C3E1B3BC}
+		{9FE9701D-605C-4B4E-A3C2-5D04E935AD6B} = {258D5057-81B9-40EC-A872-D21E27452749}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {285A5EB4-BCF4-40EB-B9E1-DF6DBCB5E705}
